@@ -1,0 +1,6 @@
+{
+  "name": "SoundQuest 44",
+  "description": "Hành trình chinh phục 44 âm tiếng Anh chuẩn British English dành cho người học B1 (British English 44 Phonemes Pronunciation Quest)",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
