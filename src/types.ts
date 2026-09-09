@@ -136,12 +136,45 @@ export interface PronunciationFeedback {
 }
 
 
+export interface ReadingExercise {
+  id: string;
+  type: 'sentence' | 'paragraph';
+  title: BilingualText;
+  text: string;
+  ipa: string;
+  translation_vi: string;
+  targetPhonemes: string[]; // e.g. ['iː', 'ɪ'] or ['θ', 'ð']
+  targetSoundsDescription: BilingualText;
+  keyWordsWithPhonemes: { word: string; phoneme: string }[];
+  difficulty: 'B1-Intro' | 'B1-Standard' | 'B1-Challenge';
+  contextCategory: 'daily' | 'travel' | 'work' | 'story';
+}
+
+export interface ReadingScoreResult {
+  overallScore: number;
+  phonemicAccuracy: number;
+  fluencyScore: number;
+  finalConsonantScore: number;
+  recognizedText: string;
+  wordStatuses: {
+    word: string;
+    isCorrect: boolean;
+    targetSound?: string;
+    note?: string;
+  }[];
+  teacherComment: {
+    en: string;
+    vi: string;
+  };
+}
+
 export interface UserProgress {
   points: number;
   streakDays: number;
   lastActiveDate: string;
   completedPhonemes: string[]; // phoneme IDs
   masteredPhonemes: string[]; // with >80% score
+  completedReadings: string[]; // reading exercise IDs
   earTrainingScore: {
     correct: number;
     total: number;

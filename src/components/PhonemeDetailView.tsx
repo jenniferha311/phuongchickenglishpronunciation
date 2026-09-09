@@ -10,13 +10,15 @@ interface PhonemeDetailViewProps {
   lang: Language;
   onPhonemeMastered?: (id: string) => void;
   isCompleted?: boolean;
+  teacherAvatar?: string;
 }
 
 export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
   phoneme,
   lang,
   onPhonemeMastered,
-  isCompleted
+  isCompleted,
+  teacherAvatar = '/yellow_chick_badge.jpg'
 }) => {
   const [selectedWordIndex, setSelectedWordIndex] = useState<number>(0);
   const [activeTab, setActiveTab] = useState<'guide' | 'studio'>('guide');
@@ -174,18 +176,34 @@ export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
 
             {/* Right Column: Examples, Minimal Pairs, B1 Context & Vietnamese Pitfall Alert */}
             <div className="lg:col-span-6 space-y-4">
-              {/* Vietnamese Pitfall Warning Alert */}
+              {/* Vietnamese Pitfall Warning Alert with Cô Phượng Chick */}
               {phoneme.vietnamesePitfalls && (
-                <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 text-xs space-y-2 shadow-xs">
-                  <div className="flex items-center gap-2 text-rose-900 font-bold">
-                    <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
-                    <span>{lang === 'vi' ? 'Lưu ý đặc biệt cho người Việt (Bẫy phát âm):' : 'Key Trap for Vietnamese Learners:'}</span>
+                <div className="bg-white border border-slate-200 rounded-xl p-4 text-xs space-y-3 shadow-xs">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={teacherAvatar}
+                      alt="Cô Phượng Chick"
+                      referrerPolicy="no-referrer"
+                      className="w-11 h-11 rounded-full object-cover border-2 border-slate-200 shadow-2xs shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 text-slate-900 font-bold text-sm">
+                        <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
+                        <span>{lang === 'vi' ? 'Cô Phượng Chick bảo cậu rằng...' : 'Cô Phượng Chick advises:'}</span>
+                      </div>
+                      <span className="text-[10px] text-slate-500 font-medium">
+                        {lang === 'vi' ? 'Bẫy phát âm người Việt hay mắc ở âm này' : 'Common pitfall for Vietnamese learners'}
+                      </span>
+                    </div>
                   </div>
-                  <p className="text-rose-950 leading-relaxed font-medium">
+
+                  <p className="text-slate-700 leading-relaxed font-medium pl-1">
                     {phoneme.vietnamesePitfalls.commonMistake[lang]}
                   </p>
-                  <div className="bg-white/80 p-2.5 rounded-lg border border-rose-200/80 text-slate-800">
-                    <strong className="text-emerald-800 block mb-0.5">{lang === 'vi' ? 'Mẹo sửa khẩu hình:' : 'How to fix:'}</strong>
+                  <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 text-slate-800">
+                    <strong className="text-emerald-700 block mb-0.5 font-bold">
+                      {lang === 'vi' ? 'Mẹo sửa khẩu hình từ cô Phượng Chick:' : 'Articulatory tip from Teacher Phuong:'}
+                    </strong>
                     {phoneme.vietnamesePitfalls.howToFix[lang]}
                   </div>
                 </div>
@@ -301,6 +319,7 @@ export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
               targetPhoneme={phoneme.symbol}
               contextSentence={phoneme.b1Sentence?.text}
               lang={lang}
+              teacherAvatar={teacherAvatar}
               onTakeCompleted={(score) => {
                 if (score >= 80 && onPhonemeMastered) {
                   onPhonemeMastered(phoneme.id);

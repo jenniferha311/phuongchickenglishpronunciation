@@ -9,6 +9,7 @@ export function getInitialProgress(): UserProgress {
     lastActiveDate: new Date().toISOString().split('T')[0],
     completedPhonemes: ['v_i_long', 'v_i_short', 'c_p', 'c_b', 'c_t'],
     masteredPhonemes: ['v_i_long', 'c_t'],
+    completedReadings: ['read-sent-1'],
     earTrainingScore: {
       correct: 8,
       total: 10
@@ -26,7 +27,11 @@ export function loadUserProgress(): UserProgress {
       saveUserProgress(initial);
       return initial;
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (!parsed.completedReadings) {
+      parsed.completedReadings = ['read-sent-1'];
+    }
+    return parsed;
   } catch (err) {
     console.warn('Failed to read user progress from localStorage:', err);
     return getInitialProgress();

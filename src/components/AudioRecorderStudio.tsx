@@ -10,6 +10,7 @@ interface AudioRecorderStudioProps {
   contextSentence?: string;
   lang: Language;
   onTakeCompleted?: (score: number) => void;
+  teacherAvatar?: string;
 }
 
 export const AudioRecorderStudio: React.FC<AudioRecorderStudioProps> = ({
@@ -18,7 +19,8 @@ export const AudioRecorderStudio: React.FC<AudioRecorderStudioProps> = ({
   targetPhoneme,
   contextSentence,
   lang,
-  onTakeCompleted
+  onTakeCompleted,
+  teacherAvatar = '/yellow_chick_badge.jpg'
 }) => {
   const [takes, setTakes] = useState<AudioTake[]>([]);
   const [activeTakeIndex, setActiveTakeIndex] = useState<number>(0);
@@ -591,17 +593,40 @@ export const AudioRecorderStudio: React.FC<AudioRecorderStudioProps> = ({
                     </div>
                   </div>
 
-                  {/* Vietnamese Specific Feedback Callout */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-950">
-                    <strong className="font-bold flex items-center gap-1 text-blue-900 mb-1">
-                      <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-                      {lang === 'vi' ? 'Nhận xét sư phạm cho người học Việt Nam:' : 'Pedagogical Notes for Vietnamese Learners:'}
-                    </strong>
-                    <p className="leading-relaxed">
-                      {lang === 'vi'
-                        ? activeTake.feedback.vietnameseSpecificFeedback.vi
-                        : activeTake.feedback.vietnameseSpecificFeedback.en}
-                    </p>
+                  {/* Cô Phượng Chick Teacher Advice Callout */}
+                  <div className="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs">
+                    <div className="flex items-start gap-3">
+                      <img
+                        src={teacherAvatar}
+                        alt="Cô Phượng Chick - EIE Education"
+                        referrerPolicy="no-referrer"
+                        className="w-12 h-12 rounded-full object-cover border-2 border-slate-200 shadow-2xs shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <span className="font-bold text-slate-900 text-sm flex items-center gap-1.5">
+                            <Sparkles className="w-4 h-4 text-amber-500" />
+                            {lang === 'vi' ? 'Cô Phượng Chick bảo cậu rằng...' : 'Cô Phượng Chick advises you:'}
+                          </span>
+                          <span className="text-[10px] font-semibold px-2 py-0.5 bg-slate-100 text-slate-700 rounded-full border border-slate-200">
+                            EIE Education (0983243993)
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-700 leading-relaxed font-medium">
+                          {lang === 'vi'
+                            ? (activeTake.feedback.vietnameseSpecificFeedback.vi.startsWith('Cô Phượng Chick')
+                                ? activeTake.feedback.vietnameseSpecificFeedback.vi
+                                : `Cô Phượng Chick bảo cậu rằng: ${activeTake.feedback.vietnameseSpecificFeedback.vi}`)
+                            : activeTake.feedback.vietnameseSpecificFeedback.en}
+                        </p>
+                        {activeTake.feedback.articulationAdvice && (
+                          <div className="mt-2 pt-2 border-t border-slate-100 text-[11px] text-slate-800 flex items-center gap-1.5">
+                            <span className="font-semibold text-emerald-700 shrink-0">{lang === 'vi' ? 'Mẹo khẩu hình:' : 'Mouth tip:'}</span>
+                            <span>{lang === 'vi' ? activeTake.feedback.articulationAdvice.vi : activeTake.feedback.articulationAdvice.en}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Strengths & Improvements */}
