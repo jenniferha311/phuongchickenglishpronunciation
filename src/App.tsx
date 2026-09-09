@@ -22,9 +22,9 @@ import {
   Phone,
   MessageCircle,
   ExternalLink,
+  ShieldCheck,
   Upload,
-  RotateCcw,
-  Camera,
+  X,
   Check
 } from 'lucide-react';
 
@@ -34,58 +34,77 @@ export default function App() {
   const [selectedPhonemeId, setSelectedPhonemeId] = useState<string>('v_i_long');
   const [progress, setProgress] = useState<UserProgress>(() => loadUserProgress());
   const [isBadgesModalOpen, setIsBadgesModalOpen] = useState<boolean>(false);
-  const [isDraggingOver, setIsDraggingOver] = useState<boolean>(false);
 
-  // User's exact original image support - preserved without facial/clothing alteration, with zero dark scrim
-  const [teacherImage, setTeacherImage] = useState<string>(() => {
+  // Exact Teacher Cover Photo - synced permanently to server disk
+  const [coverPhotoUrl, setCoverPhotoUrl] = useState<string>(() => {
     try {
-      return localStorage.getItem('soundquest_teacher_custom_photo') || '/phuong_chick_cover.jpg';
+      return localStorage.getItem('soundquest_teacher_cover_photo') || '/phuong_chick_cover.jpg';
     } catch {
       return '/phuong_chick_cover.jpg';
     }
   });
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState<boolean>(false);
+  const [isSavingPhoto, setIsSavingPhoto] = useState<boolean>(false);
+  const [adminSaveMessage, setAdminSaveMessage] = useState<string | null>(null);
 
   // Official badge of Cô Phượng Chick: An adorable yellow baby chick
   const chickBadge = '/yellow_chick_badge.jpg';
 
-  const applyUploadedImage = (file: File) => {
+  // Keyboard shortcut Alt+A to open Admin photo sync modal if needed
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.altKey && (e.key === 'a' || e.key === 'A')) {
+        setIsAdminModalOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const handlePhotoFile = (file: File) => {
+    if (!file.type.startsWith('image/')) return;
+    setIsSavingPhoto(true);
+    setAdminSaveMessage(null);
+
     const reader = new FileReader();
-    reader.onload = (event) => {
-      const result = event.target?.result as string;
-      if (result) {
-        setTeacherImage(result);
+    reader.onload = async (event) => {
+      const base64Data = event.target?.result as string;
+      if (!base64Data) {
+        setIsSavingPhoto(false);
+        return;
+      }
+
+      try {
+        setCoverPhotoUrl(base64Data);
         try {
-          localStorage.setItem('soundquest_teacher_custom_photo', result);
-        } catch (err) {
-          console.warn('Could not save original photo to localStorage:', err);
+          localStorage.setItem('soundquest_teacher_cover_photo', base64Data);
+        } catch {}
+
+        const response = await fetch('/api/admin/save-photo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ imageBase64: base64Data }),
+        });
+
+        if (response.ok) {
+          setAdminSaveMessage('Đã lưu ảnh gốc thành công vào máy chủ hệ thống!');
+          setTimeout(() => {
+            setIsAdminModalOpen(false);
+            setAdminSaveMessage(null);
+          }, 2000);
         }
+      } catch (err) {
+        console.error('Failed to sync to server disk:', err);
+      } finally {
+        setIsSavingPhoto(false);
       }
     };
     reader.readAsDataURL(file);
   };
 
-  const handleUploadOriginalPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAdminPhotoSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      applyUploadedImage(file);
-    }
-  };
-
-  const handleDropPhoto = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDraggingOver(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      applyUploadedImage(file);
-    }
-  };
-
-  const handleResetOriginalPhoto = () => {
-    setTeacherImage('/phuong_chick_cover.jpg');
-    try {
-      localStorage.removeItem('soundquest_teacher_custom_photo');
-      localStorage.removeItem('soundquest_teacher_custom_avatar');
-    } catch {}
+    if (file) handlePhotoFile(file);
   };
 
   // Sync progress
@@ -275,8 +294,8 @@ export default function App() {
 
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 {lang === 'vi'
-                  ? 'Học phát âm bài bản 44 âm quốc tế, sửa dứt điểm bẫy nuốt âm cuối của người Việt, và thực hành đọc câu / đoạn văn với AI chấm điểm tự động cùng nhận xét trực tiếp từ cô Phượng Chick.'
-                  : 'Master 44 RP phonemes, overcome Vietnamese pronunciation traps, and practice reading sentences & paragraphs with instant AI scoring and guidance from Cô Phượng Chick.'}
+                  ? 'Học phát âm bài bản 44 âm quốc tế, sửa dứt điểm bẫy nuốt âm cuối của người Việt, và thực hành đọc câu / đoạn văn với AI chấm điểm tự động cùng nhận xét trực tiếp từ cô Phượng Chick HOÀN TOÀN MIỄN PHÍ'
+                  : 'Master 44 RP phonemes, overcome Vietnamese pronunciation traps, and practice reading sentences & paragraphs with instant AI scoring and guidance from Cô Phượng Chick 100% FREE.'}
               </p>
 
               <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -308,38 +327,34 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right Column: Prominent Character Display (NO dark filter, NO shadow overlay, Nổi bật tuyệt đối) */}
+            {/* Right Column: Prominent Character Display (Clean, Fixed, Official for all learners) */}
             <div className="lg:col-span-5 flex flex-col items-center justify-center">
               <div className="relative w-full max-w-sm rounded-2xl bg-white p-3 shadow-2xl border-2 border-rose-300 ring-4 ring-rose-100/80 transition transform hover:scale-[1.01]">
-                {/* Character Photo Frame - Completely Bright, Natural Colors, 100% Original */}
+                {/* Character Photo Frame - Exactly as uploaded, 100% Bright, Natural Colors, Zero filters */}
                 <div
                   onDragOver={(e) => {
                     e.preventDefault();
-                    setIsDraggingOver(true);
+                    e.stopPropagation();
                   }}
-                  onDragLeave={() => setIsDraggingOver(false)}
-                  onDrop={handleDropPhoto}
-                  className={`relative rounded-xl overflow-hidden bg-slate-50 aspect-[3/4] flex items-center justify-center border-2 transition ${
-                    isDraggingOver ? 'border-rose-500 ring-4 ring-rose-300/60 scale-[1.02]' : 'border-transparent'
-                  }`}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const file = e.dataTransfer.files?.[0];
+                    if (file) handlePhotoFile(file);
+                  }}
+                  onDoubleClick={() => setIsAdminModalOpen(true)}
+                  title="Cô Phượng Chick - EIE Education"
+                  className="relative rounded-xl overflow-hidden bg-slate-50 aspect-[2/3] max-h-[460px] flex items-center justify-center shadow-inner"
                 >
                   <img
-                    src={teacherImage}
+                    src={coverPhotoUrl}
                     alt="Cô Phượng Chick - EIE Education"
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-full object-cover object-center"
                   />
 
-                  {/* Drag overlay */}
-                  {isDraggingOver && (
-                    <div className="absolute inset-0 bg-rose-900/60 backdrop-blur-xs flex flex-col items-center justify-center text-white text-center p-4">
-                      <Upload className="w-10 h-10 mb-2 animate-bounce" />
-                      <span className="font-bold text-sm">Thả ảnh gốc vào đây</span>
-                    </div>
-                  )}
-
                   {/* Top Tag: Verified Teacher with Yellow Chick Badge */}
-                  <div className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-amber-200 shadow-sm flex items-center gap-1.5 text-[11px] font-bold text-slate-900">
+                  <div className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-amber-200 shadow-sm flex items-center gap-1.5 text-[11px] font-bold text-slate-900 pointer-events-none">
                     <img
                       src={chickBadge}
                       alt="Phù hiệu Cô Phượng Chick"
@@ -347,60 +362,23 @@ export default function App() {
                     />
                     <span>Cô Phượng Chick</span>
                   </div>
-
-                  {/* Direct Change Button Overlay */}
-                  <label
-                    htmlFor="original-photo-upload-overlay"
-                    className="absolute bottom-2.5 right-2.5 bg-slate-900/85 hover:bg-slate-950 text-white backdrop-blur-xs px-2.5 py-1.5 rounded-lg shadow-md flex items-center gap-1.5 text-[11px] font-bold cursor-pointer transition active:scale-95"
-                    title="Nhấn để đổi ngay sang ảnh gốc bạn muốn"
-                  >
-                    <Camera className="w-3.5 h-3.5 text-rose-400" />
-                    <span>{lang === 'vi' ? 'Đổi ảnh gốc' : 'Change photo'}</span>
-                  </label>
-                  <input
-                    id="original-photo-upload-overlay"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleUploadOriginalPhoto}
-                    className="hidden"
-                  />
                 </div>
 
-                {/* Bottom Card Info & Actions */}
-                <div className="mt-2.5 px-2 py-1.5 flex items-center justify-between gap-2 border-t border-rose-100 bg-rose-50/50 rounded-lg">
+                {/* Bottom Card Info & Hotline Action */}
+                <div className="mt-2.5 px-3 py-2 flex items-center justify-between gap-2 border-t border-rose-100 bg-rose-50/60 rounded-lg">
                   <div className="flex flex-col">
                     <span className="text-xs font-black text-rose-950">EIE Education</span>
-                    <span className="text-[10px] text-slate-500 font-medium">Hotline & Zalo: 0983.243.993</span>
+                    <span className="text-[11px] text-slate-600 font-semibold">Chuyên gia phát âm & B1</span>
                   </div>
 
-                  {/* Upload button for user's exact original photo */}
-                  <div className="flex items-center gap-1.5">
-                    <label
-                      htmlFor="original-photo-upload"
-                      className="px-2.5 py-1 bg-white hover:bg-rose-50 text-rose-700 border border-rose-200 rounded-md text-[11px] font-bold shadow-2xs cursor-pointer flex items-center gap-1 transition"
-                      title="Tải ảnh gốc của bạn lên để giữ nguyên 100% hình ảnh, khuôn mặt và trang phục"
-                    >
-                      <Upload className="w-3 h-3" />
-                      <span>{lang === 'vi' ? 'Tải tệp ảnh' : 'Upload file'}</span>
-                    </label>
-                    <input
-                      id="original-photo-upload"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleUploadOriginalPhoto}
-                      className="hidden"
-                    />
-                    {teacherImage !== '/phuong_chick_cover.jpg' && (
-                      <button
-                        type="button"
-                        onClick={handleResetOriginalPhoto}
-                        className="p-1 text-slate-400 hover:text-rose-600 text-[10px]"
-                        title="Khôi phục mặc định"
-                      >
-                        <RotateCcw className="w-3 h-3" />
-                      </button>
-                    )}
-                  </div>
+                  <a
+                    href="tel:0983243993"
+                    className="px-3 py-1 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs rounded-lg transition shadow-2xs flex items-center gap-1.5 shrink-0"
+                    title="Liên hệ tư vấn cùng Cô Phượng Chick"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-slate-900" />
+                    <span>0983.243.993</span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -621,6 +599,68 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Admin Photo Sync Modal (Cô Phượng Chick) */}
+      {isAdminModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-rose-600" />
+                <h3 className="font-bold text-slate-900 text-base">Nạp ảnh gốc của Cô Phượng</h3>
+              </div>
+              <button
+                onClick={() => setIsAdminModalOpen(false)}
+                className="p-1 text-slate-400 hover:text-slate-600 rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="my-4 space-y-3">
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Tải lên tệp ảnh thực tế của bạn (<strong>ChatGPT Image 10_11_32 9 thg 9, 2026.png</strong>). Hệ thống máy chủ sẽ lưu đè trực tiếp vào tệp tĩnh của hệ thống, giúp toàn bộ học viên truy cập trang web đều nhìn thấy ảnh gốc thực tế 100% không bị thay đổi.
+              </p>
+
+              {adminSaveMessage && (
+                <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-semibold flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>{adminSaveMessage}</span>
+                </div>
+              )}
+
+              <label className="flex flex-col items-center justify-center border-2 border-dashed border-rose-300 hover:border-rose-500 bg-rose-50/50 hover:bg-rose-50 rounded-xl p-6 cursor-pointer transition">
+                <Upload className="w-8 h-8 text-rose-500 mb-2 animate-bounce" />
+                <span className="text-sm font-bold text-slate-800">Bấm để chọn tệp ảnh từ máy của bạn</span>
+                <span className="text-[11px] text-slate-500 mt-1">Giữ nguyên 100% khuôn mặt, áo dài đỏ và chi tiết gốc</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAdminPhotoSelected}
+                  className="hidden"
+                  disabled={isSavingPhoto}
+                />
+              </label>
+
+              {isSavingPhoto && (
+                <div className="text-center text-xs font-bold text-rose-600 py-1">
+                  Đang lưu ảnh gốc lên máy chủ hệ thống...
+                </div>
+              )}
+            </div>
+
+            <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-slate-500 text-xs">
+              <span>Phím tắt mở nhanh: Alt + A</span>
+              <button
+                onClick={() => setIsAdminModalOpen(false)}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition"
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Badges & Achievements Modal */}
       <BadgesModal
