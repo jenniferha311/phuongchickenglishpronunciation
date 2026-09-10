@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { PhonemeData, Language } from '../types';
+import { PhonemeData, Language, Accent } from '../types';
 import { SagittalDiagram } from './SagittalDiagram';
 import { AudioRecorderStudio } from './AudioRecorderStudio';
-import { Volume2, AlertTriangle, ArrowRight, BookOpen, MessageSquare, Check, Sparkles } from 'lucide-react';
-import { playBritishSpeech, playIsolatedPhonemeSound } from '../utils/audio';
+import { Volume2, AlertTriangle, ArrowRight, BookOpen, MessageSquare, Check, Sparkles, ArrowRightLeft } from 'lucide-react';
+import { playSpeech, playIsolatedPhonemeSound } from '../utils/audio';
+import { getPhonemeAccentDifference } from '../data/accentDifferences';
 
 interface PhonemeDetailViewProps {
   phoneme: PhonemeData;
   lang: Language;
+  currentAccent?: Accent;
   onPhonemeMastered?: (id: string) => void;
   isCompleted?: boolean;
   teacherAvatar?: string;
@@ -16,30 +18,34 @@ interface PhonemeDetailViewProps {
 export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
   phoneme,
   lang,
+  currentAccent = 'uk' as Accent,
   onPhonemeMastered,
   isCompleted,
   teacherAvatar = '/yellow_chick_badge.jpg'
 }) => {
   const [selectedWordIndex, setSelectedWordIndex] = useState<number>(0);
   const [activeTab, setActiveTab] = useState<'guide' | 'studio'>('guide');
-  const [isPlayingWord, setIsPlayingWord] = useState<string | null>(null);
+  const [isPlayingWord, setIsPlayingWord] = useState<{ word: string; accent: Accent } | null>(null);
 
   const currentExample = phoneme.examples[selectedWordIndex] || phoneme.examples[0];
+  const accentDiff = getPhonemeAccentDifference(phoneme.symbol);
 
-  const handlePlayWord = async (word: string, ipa: string) => {
-    setIsPlayingWord(word);
-    await playBritishSpeech(word);
+  const safeAccent: Accent = (currentAccent === 'us' ? 'us' : 'uk');
+
+  const handlePlayWord = async (word: string, accent: Accent = safeAccent) => {
+    setIsPlayingWord({ word, accent });
+    await playSpeech(word, accent);
     setIsPlayingWord(null);
   };
 
-  const handlePlayIsolated = async () => {
-    await playIsolatedPhonemeSound(phoneme.symbol);
+  const handlePlayIsolated = async (accent: Accent = safeAccent) => {
+    await playIsolatedPhonemeSound(phoneme.symbol, 1.0, accent);
   };
 
-  const handlePlaySentence = async () => {
+  const handlePlaySentence = async (accent: Accent = safeAccent) => {
     if (!phoneme.b1Sentence) return;
-    setIsPlayingWord(phoneme.b1Sentence.text);
-    await playBritishSpeech(phoneme.b1Sentence.text);
+    setIsPlayingWord({ word: phoneme.b1Sentence.text, accent });
+    await playSpeech(phoneme.b1Sentence.text, accent);
     setIsPlayingWord(null);
   };
 
@@ -76,14 +82,24 @@ export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
 
         {/* Quick Audio & Action Buttons */}
         <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={handlePlayIsolated}
-            className="flex items-center gap-2 px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-lg text-xs font-bold shadow-md transition transform active:scale-95"
-          >
-            <Volume2 className="w-4 h-4" />
-            <span>{lang === 'vi' ? 'Phát âm mẫu' : 'Play Sound'}</span>
-          </button>
+          <div className="inline-flex rounded-xl bg-white/10 p-1 border border-white/20">
+            <button
+              type="button"
+              onClick={() => handlePlayIsolated('uk')}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs font-bold shadow-xs transition transform active:scale-95"
+            >
+              <Volume2 className="w-3.5 h-3.5" />
+              <span>🇬🇧 {lang === 'vi' ? 'Nghe âm UK' : 'UK Sound'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handlePlayIsolated('us')}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-bold shadow-xs transition transform active:scale-95 ml-1"
+            >
+              <Volume2 className="w-3.5 h-3.5" />
+              <span>🇺🇸 {lang === 'vi' ? 'Nghe âm US' : 'US Sound'}</span>
+            </button>
+          </div>
 
           {onPhonemeMastered && (
             <button
@@ -209,33 +225,141 @@ export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
                 </div>
               )}
 
+              {/* Accent Contrast Box: UK vs US for this phoneme */}
+              <div className="bg-gradient-to-br from-indigo-50/70 to-sky-50/70 border border-indigo-200/80 rounded-xl p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black uppercase tracking-wider text-indigo-900 flex items-center gap-1.5">
+                    <ArrowRightLeft className="w-3.5 h-3.5 text-indigo-600" />
+                    <span>{lang === 'vi' ? 'So sánh Chuẩn Anh - Anh 🇬🇧 vs Anh - Mỹ 🇺🇸' : 'UK vs US Pronunciation Contrast'}</span>
+                  </span>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                    accentDiff?.hasDifference
+                      ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                      : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                  }`}>
+                    {accentDiff?.hasDifference
+                      ? (lang === 'vi' ? 'Có điểm khác biệt đáng chú ý' : 'Distinct Accent Contrast')
+                      : (lang === 'vi' ? 'Độ tương đồng cao giữa UK & US' : 'High Similarity')}
+                  </span>
+                </div>
+
+                {accentDiff ? (
+                  <div className="space-y-2.5">
+                    <p className="text-xs text-slate-700 leading-relaxed font-medium">
+                      {accentDiff.explanation[lang]}
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div className="bg-white/80 p-2.5 rounded-lg border border-rose-200">
+                        <div className="font-bold text-rose-800 flex items-center gap-1 text-[11px]">
+                          <span>🇬🇧 Anh - Anh (RP)</span>
+                        </div>
+                        <span className="font-mono font-bold text-slate-800 mt-1 block">{accentDiff.ukIpa}</span>
+                      </div>
+
+                      <div className="bg-white/80 p-2.5 rounded-lg border border-sky-200">
+                        <div className="font-bold text-sky-800 flex items-center gap-1 text-[11px]">
+                          <span>🇺🇸 Anh - Mỹ (GA)</span>
+                        </div>
+                        <span className="font-mono font-bold text-slate-800 mt-1 block">{accentDiff.usIpa}</span>
+                      </div>
+                    </div>
+
+                    {accentDiff.contrastExamples && (
+                      <div className="space-y-1.5 pt-1">
+                        <span className="text-[11px] font-bold text-slate-600 block">
+                          {lang === 'vi' ? 'Từ vựng đối chiếu trực tiếp:' : 'Contrast Audio Samples:'}
+                        </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          {accentDiff.contrastExamples.map((item, idx) => (
+                            <div key={idx} className="bg-white p-2 rounded-lg border border-slate-200 flex items-center justify-between gap-2">
+                              <span className="font-bold text-xs text-slate-900">{item.word}</span>
+                              <div className="flex items-center gap-1">
+                                <button
+                                  type="button"
+                                  onClick={() => handlePlayWord(item.word, 'uk')}
+                                  className="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded text-[10px] font-bold flex items-center gap-1 transition"
+                                  title="Nghe chuẩn UK"
+                                >
+                                  <span>🇬🇧</span>
+                                  <Volume2 className="w-2.5 h-2.5" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handlePlayWord(item.word, 'us')}
+                                  className="px-2 py-1 bg-sky-50 hover:bg-sky-100 text-sky-700 rounded text-[10px] font-bold flex items-center gap-1 transition"
+                                  title="Nghe chuẩn US"
+                                >
+                                  <span>🇺🇸</span>
+                                  <Volume2 className="w-2.5 h-2.5" />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {lang === 'vi'
+                      ? 'Âm này có vị trí và phương thức cấu âm tương đồng giữa 2 chuẩn. Tuy nhiên ngữ điệu và độ vang ở Anh - Mỹ có thể dày hơn. Bạn có thể bấm nghe thử cả 2 chuẩn dưới đây!'
+                      : 'This phoneme shares very similar articulation in both accents, though American English often has slightly different vowel resonance. Listen to both below!'}
+                  </p>
+                )}
+              </div>
+
               {/* Anchor Vocabulary Examples */}
               <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
                     {lang === 'vi' ? 'Từ vựng neo âm mẫu (Anchor Words):' : 'Anchor Practice Words:'}
                   </span>
+                  <span className="text-[11px] text-slate-400">
+                    {lang === 'vi' ? 'Bấm 🇬🇧 hoặc 🇺🇸 để nghe trực tiếp' : 'Click 🇬🇧 or 🇺🇸 to compare'}
+                  </span>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   {phoneme.examples.map((ex, idx) => (
-                    <button
+                    <div
                       key={idx}
-                      type="button"
-                      onClick={() => {
-                        setSelectedWordIndex(idx);
-                        handlePlayWord(ex.word, ex.ipa);
-                      }}
-                      className={`p-2.5 rounded-lg border text-center transition ${
+                      className={`p-3 rounded-xl border transition ${
                         selectedWordIndex === idx
-                          ? 'bg-sky-50 border-sky-400 ring-2 ring-sky-200'
-                          : 'bg-slate-50 border-slate-200 hover:bg-slate-100'
+                          ? 'bg-sky-50/80 border-sky-400 ring-2 ring-sky-200'
+                          : 'bg-slate-50 border-slate-200'
                       }`}
                     >
-                      <span className="block font-bold text-sm text-slate-900">{ex.word}</span>
-                      <span className="block font-mono text-xs text-sky-700">{ex.ipa}</span>
-                      <span className="block text-[10px] text-slate-500 truncate mt-0.5">{ex.meaning_vi}</span>
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedWordIndex(idx)}
+                        className="w-full text-left"
+                      >
+                        <span className="block font-bold text-sm text-slate-900">{ex.word}</span>
+                        <span className="block font-mono text-xs text-sky-700">{ex.ipa}</span>
+                        <span className="block text-[10px] text-slate-500 truncate mt-0.5">{ex.meaning_vi}</span>
+                      </button>
+
+                      {/* Dual sound buttons */}
+                      <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-slate-200/70">
+                        <button
+                          type="button"
+                          onClick={() => handlePlayWord(ex.word, 'uk')}
+                          className="flex-1 py-1 px-1.5 bg-rose-100/80 hover:bg-rose-200 text-rose-800 rounded text-[10px] font-bold flex items-center justify-center gap-1 transition"
+                        >
+                          <span>🇬🇧 UK</span>
+                          <Volume2 className="w-2.5 h-2.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handlePlayWord(ex.word, 'us')}
+                          className="flex-1 py-1 px-1.5 bg-sky-100/80 hover:bg-sky-200 text-sky-800 rounded text-[10px] font-bold flex items-center justify-center gap-1 transition"
+                        >
+                          <span>🇺🇸 US</span>
+                          <Volume2 className="w-2.5 h-2.5" />
+                        </button>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -252,7 +376,7 @@ export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
                       <div className="grid grid-cols-2 gap-2 text-center">
                         <button
                           type="button"
-                          onClick={() => handlePlayWord(pair.wordA, pair.ipaA)}
+                          onClick={() => handlePlayWord(pair.wordA, safeAccent)}
                           className="p-2 rounded bg-amber-50/70 border border-amber-200 hover:bg-amber-100 transition"
                         >
                           <span className="block font-bold text-sm text-slate-900">{pair.wordA}</span>
@@ -262,7 +386,7 @@ export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
 
                         <button
                           type="button"
-                          onClick={() => handlePlayWord(pair.wordB, pair.ipaB)}
+                          onClick={() => handlePlayWord(pair.wordB, safeAccent)}
                           className="p-2 rounded bg-sky-50/70 border border-sky-200 hover:bg-sky-100 transition"
                         >
                           <span className="block font-bold text-sm text-slate-900">{pair.wordB}</span>
@@ -287,14 +411,24 @@ export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
                       <BookOpen className="w-3.5 h-3.5 text-sky-600" />
                       {lang === 'vi' ? 'Câu ứng dụng giao tiếp B1:' : 'B1 Practice Sentence:'}
                     </span>
-                    <button
-                      type="button"
-                      onClick={handlePlaySentence}
-                      className="text-xs font-semibold text-sky-600 hover:text-sky-800 flex items-center gap-1"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                      <span>{lang === 'vi' ? 'Nghe cả câu' : 'Listen'}</span>
-                    </button>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => handlePlaySentence('uk')}
+                        className="text-xs font-semibold px-2 py-1 rounded bg-rose-50 text-rose-700 hover:bg-rose-100 flex items-center gap-1 transition"
+                      >
+                        <Volume2 className="w-3 h-3" />
+                        <span>🇬🇧 UK</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handlePlaySentence('us')}
+                        className="text-xs font-semibold px-2 py-1 rounded bg-sky-50 text-sky-700 hover:bg-sky-100 flex items-center gap-1 transition"
+                      >
+                        <Volume2 className="w-3 h-3" />
+                        <span>🇺🇸 US</span>
+                      </button>
+                    </div>
                   </div>
 
                   <p className="text-sm font-semibold text-slate-800 leading-relaxed">
@@ -320,6 +454,7 @@ export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
               contextSentence={phoneme.b1Sentence?.text}
               lang={lang}
               teacherAvatar={teacherAvatar}
+              initialAccent={currentAccent}
               onTakeCompleted={(score) => {
                 if (score >= 80 && onPhonemeMastered) {
                   onPhonemeMastered(phoneme.id);

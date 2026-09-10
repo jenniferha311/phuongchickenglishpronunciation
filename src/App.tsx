@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ALL_PHONEMES, getPhonemeById } from './data/phonemes';
-import { PhonemeData, Language, UserProgress } from './types';
+import { PhonemeData, Language, UserProgress, Accent } from './types';
 import { IpaChart } from './components/IpaChart';
 import { PhonemeDetailView } from './components/PhonemeDetailView';
 import { EarTrainingModule } from './components/EarTrainingModule';
 import { VietnamesePitfallsGuide } from './components/VietnamesePitfallsGuide';
 import { ReadingPracticeModule } from './components/ReadingPracticeModule';
+import { AccentComparisonModule } from './components/AccentComparisonModule';
 import { BadgesModal } from './components/BadgesModal';
 import { loadUserProgress, saveUserProgress, addPoints } from './utils/storage';
 import {
@@ -25,12 +26,14 @@ import {
   ShieldCheck,
   Upload,
   X,
-  Check
+  Check,
+  ArrowRightLeft
 } from 'lucide-react';
 
 export default function App() {
   const [lang, setLang] = useState<Language>('vi');
-  const [activeNavTab, setActiveNavTab] = useState<'ipa_chart' | 'reading_practice' | 'ear_training' | 'pitfalls'>('ipa_chart');
+  const [accent, setAccent] = useState<Accent>('uk');
+  const [activeNavTab, setActiveNavTab] = useState<'ipa_chart' | 'reading_practice' | 'ear_training' | 'pitfalls' | 'accent_contrast'>('ipa_chart');
   const [selectedPhonemeId, setSelectedPhonemeId] = useState<string>('v_i_long');
   const [progress, setProgress] = useState<UserProgress>(() => loadUserProgress());
   const [isBadgesModalOpen, setIsBadgesModalOpen] = useState<boolean>(false);
@@ -230,6 +233,38 @@ export default function App() {
               </div>
             </button>
 
+            {/* Global Accent Toggle: UK (RP) vs US (GA) */}
+            <div className="flex rounded-lg bg-slate-100 p-0.5 border border-slate-200 text-xs font-bold">
+              <button
+                id="accent-toggle-uk"
+                type="button"
+                onClick={() => setAccent('uk')}
+                title="Chuẩn Anh - Anh (Received Pronunciation)"
+                className={`px-2.5 py-1 rounded-md transition flex items-center gap-1 ${
+                  accent === 'uk'
+                    ? 'bg-rose-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>🇬🇧</span>
+                <span className="hidden sm:inline">UK</span>
+              </button>
+              <button
+                id="accent-toggle-us"
+                type="button"
+                onClick={() => setAccent('us')}
+                title="Chuẩn Anh - Mỹ (General American)"
+                className={`px-2.5 py-1 rounded-md transition flex items-center gap-1 ${
+                  accent === 'us'
+                    ? 'bg-sky-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>🇺🇸</span>
+                <span className="hidden sm:inline">US</span>
+              </button>
+            </div>
+
             {/* Language Toggle: VI vs EN */}
             <div className="flex rounded-lg bg-slate-100 p-0.5 border border-slate-200 text-xs font-bold">
               <button
@@ -315,6 +350,15 @@ export default function App() {
                 >
                   <Compass className="w-4 h-4 text-rose-600" />
                   <span>{lang === 'vi' ? 'Khám Phá 44 Âm IPA' : 'Explore 44 Phonemes'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveNavTab('accent_contrast')}
+                  className="px-4 py-3 bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-300 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 shadow-xs cursor-pointer"
+                >
+                  <ArrowRightLeft className="w-4 h-4 text-sky-600" />
+                  <span>{lang === 'vi' ? 'So Sánh UK & US 🇬🇧🇺🇸' : 'UK vs US 🇬🇧🇺🇸'}</span>
                 </button>
 
                 <a
@@ -425,6 +469,26 @@ export default function App() {
               </span>
             </button>
 
+            {/* UK vs US Dual Accent Comparison Tab */}
+            <button
+              id="nav-tab-accent"
+              type="button"
+              onClick={() => setActiveNavTab('accent_contrast')}
+              className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition shrink-0 ${
+                activeNavTab === 'accent_contrast'
+                  ? 'bg-rose-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              <ArrowRightLeft className="w-4 h-4" />
+              <span>{lang === 'vi' ? 'So Sánh Chuẩn Anh - Mỹ' : 'UK vs US Accents'}</span>
+              <span className={`text-[10px] uppercase font-black px-1.5 py-0.2 rounded-full ${
+                activeNavTab === 'accent_contrast' ? 'bg-white text-rose-700' : 'bg-sky-100 text-sky-800'
+              }`}>
+                🇬🇧 🇺🇸
+              </span>
+            </button>
+
             <button
               id="nav-tab-ear"
               type="button"
@@ -469,6 +533,7 @@ export default function App() {
             <PhonemeDetailView
               phoneme={selectedPhoneme}
               lang={lang}
+              currentAccent={accent}
               onPhonemeMastered={handlePhonemeMastered}
               isCompleted={progress.completedPhonemes.includes(selectedPhoneme.id)}
               teacherAvatar={chickBadge}
@@ -484,13 +549,24 @@ export default function App() {
           </div>
         )}
 
-        {/* NEW READING PRACTICE MODULE WITH SCORING */}
+        {/* READING PRACTICE MODULE WITH SCORING */}
         {activeNavTab === 'reading_practice' && (
           <ReadingPracticeModule
             lang={lang}
+            currentAccent={accent}
             onCompleteExercise={handleReadingCompleted}
             completedIds={progress.completedReadings || []}
             teacherAvatar={chickBadge}
+          />
+        )}
+
+        {/* UK VS US ACCENT COMPARISON MODULE */}
+        {activeNavTab === 'accent_contrast' && (
+          <AccentComparisonModule
+            lang={lang}
+            currentAccent={accent}
+            onSelectAccent={(newAccent) => setAccent(newAccent)}
+            onOpenReadingPractice={() => setActiveNavTab('reading_practice')}
           />
         )}
 

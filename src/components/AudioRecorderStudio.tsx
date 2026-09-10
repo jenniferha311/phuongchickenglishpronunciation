@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { PronunciationFeedback, Language, AudioTake } from '../types';
+import { PronunciationFeedback, Language, AudioTake, Accent } from '../types';
 import { Mic, Square, Play, Pause, RotateCcw, Sparkles, CheckCircle2, AlertTriangle, Volume2 } from 'lucide-react';
-import { playBritishSpeech } from '../utils/audio';
+import { playSpeech } from '../utils/audio';
 
 interface AudioRecorderStudioProps {
   targetWord: string;
@@ -11,6 +11,7 @@ interface AudioRecorderStudioProps {
   lang: Language;
   onTakeCompleted?: (score: number) => void;
   teacherAvatar?: string;
+  initialAccent?: Accent;
 }
 
 export const AudioRecorderStudio: React.FC<AudioRecorderStudioProps> = ({
@@ -20,8 +21,10 @@ export const AudioRecorderStudio: React.FC<AudioRecorderStudioProps> = ({
   contextSentence,
   lang,
   onTakeCompleted,
-  teacherAvatar = '/yellow_chick_badge.jpg'
+  teacherAvatar = '/yellow_chick_badge.jpg',
+  initialAccent = 'uk'
 }) => {
+  const [accent, setAccent] = useState<Accent>(initialAccent);
   const [takes, setTakes] = useState<AudioTake[]>([]);
   const [activeTakeIndex, setActiveTakeIndex] = useState<number>(0);
   const [isRecording, setIsRecording] = useState<boolean>(false);
@@ -244,7 +247,8 @@ export const AudioRecorderStudio: React.FC<AudioRecorderStudioProps> = ({
           contextType: 'word',
           contextSentence,
           takeNumber: take.takeNumber,
-          recordedDuration: take.durationSeconds
+          recordedDuration: take.durationSeconds,
+          accent
         })
       });
 
@@ -332,10 +336,10 @@ export const AudioRecorderStudio: React.FC<AudioRecorderStudioProps> = ({
     }
   };
 
-  const playNativeSpeaker = async () => {
+  const playNativeSpeaker = async (chosenAccent: Accent = accent) => {
     if (isPlayingNative) return;
     setIsPlayingNative(true);
-    await playBritishSpeech(contextSentence || targetWord, nativeSpeed);
+    await playSpeech(contextSentence || targetWord, chosenAccent, nativeSpeed);
     setIsPlayingNative(false);
   };
 
@@ -372,9 +376,19 @@ export const AudioRecorderStudio: React.FC<AudioRecorderStudioProps> = ({
       {/* Target Word Display Banner */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
         <div>
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-            {lang === 'vi' ? 'Từ & Ngữ cảnh mục tiêu' : 'Target Practice Target'}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+              {lang === 'vi' ? 'Từ & Ngữ cảnh mục tiêu' : 'Target Practice Target'}
+            </span>
+            {/* Target Accent Indicator Badge */}
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+              accent === 'us'
+                ? 'bg-sky-100 text-sky-800 border border-sky-200'
+                : 'bg-rose-100 text-rose-800 border border-rose-200'
+            }`}>
+              {accent === 'us' ? '🇺🇸 Chuẩn US (Anh - Mỹ)' : '🇬🇧 Chuẩn UK (Anh - Anh)'}
+            </span>
+          </div>
           <div className="flex items-baseline gap-3 mt-1">
             <h3 className="text-2xl font-black text-slate-800 tracking-tight">{targetWord}</h3>
             <span className="text-lg font-mono font-bold text-sky-600">{targetIpa}</span>
@@ -384,32 +398,57 @@ export const AudioRecorderStudio: React.FC<AudioRecorderStudioProps> = ({
           )}
         </div>
 
-        {/* Native Speaker A/B Listening Control */}
-        <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-lg border border-slate-200">
-          <button
-            id="play-native-speaker-btn"
-            type="button"
-            onClick={playNativeSpeaker}
-            disabled={isPlayingNative}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-sky-600 hover:bg-sky-700 disabled:opacity-50 text-white rounded-md text-xs font-semibold shadow-xs transition"
-          >
-            <Volume2 className="w-3.5 h-3.5" />
-            <span>{isPlayingNative ? (lang === 'vi' ? 'Đang đọc...' : 'Playing...') : (lang === 'vi' ? 'Nghe chuẩn RP' : 'Native RP')}</span>
-          </button>
+        {/* Dual Accent Native Speaker A/B Listening Control */}
+        <div className="flex flex-wrap items-center gap-2 bg-slate-50 p-2 rounded-xl border border-slate-200">
+          <div className="inline-flex rounded-lg bg-white p-0.5 border border-slate-200 shadow-2xs">
+            <button
+              type="button"
+              onClick={() => {
+                setAccent('uk');
+                playNativeSpeaker('uk');
+              }}
+              disabled={isPlayingNative}
+              className={`px-2.5 py-1.5 rounded-md text-xs font-bold transition flex items-center gap-1.5 ${
+                accent === 'uk'
+                  ? 'bg-rose-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <span>🇬🇧 UK</span>
+              <Volume2 className="w-3 h-3" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setAccent('us');
+                playNativeSpeaker('us');
+              }}
+              disabled={isPlayingNative}
+              className={`px-2.5 py-1.5 rounded-md text-xs font-bold transition flex items-center gap-1.5 ${
+                accent === 'us'
+                  ? 'bg-sky-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <span>🇺🇸 US</span>
+              <Volume2 className="w-3 h-3" />
+            </button>
+          </div>
 
           {/* Speed Toggle: 1.0x vs 0.75x */}
-          <div className="flex rounded bg-slate-200 p-0.5 text-[11px] font-medium text-slate-700">
+          <div className="flex rounded-lg bg-slate-200 p-0.5 text-[11px] font-medium text-slate-700">
             <button
               type="button"
               onClick={() => setNativeSpeed(1.0)}
-              className={`px-2 py-0.5 rounded ${nativeSpeed === 1.0 ? 'bg-white shadow-xs font-bold text-sky-700' : 'hover:text-slate-900'}`}
+              className={`px-2 py-0.5 rounded-md ${nativeSpeed === 1.0 ? 'bg-white shadow-xs font-bold text-slate-900' : 'hover:text-slate-900'}`}
             >
               1.0x
             </button>
             <button
               type="button"
               onClick={() => setNativeSpeed(0.75)}
-              className={`px-2 py-0.5 rounded ${nativeSpeed === 0.75 ? 'bg-white shadow-xs font-bold text-sky-700' : 'hover:text-slate-900'}`}
+              className={`px-2 py-0.5 rounded-md ${nativeSpeed === 0.75 ? 'bg-white shadow-xs font-bold text-slate-900' : 'hover:text-slate-900'}`}
             >
               0.75x
             </button>

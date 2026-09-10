@@ -1,4 +1,5 @@
 export type Language = 'vi' | 'en';
+export type Accent = 'uk' | 'us';
 
 export type PhonemeCategory = 'vowel' | 'consonant';
 
@@ -47,8 +48,22 @@ export interface SagittalConfig {
 export interface WordExample {
   word: string;
   ipa: string;
+  ipa_us?: string;
   position: 'initial' | 'medial' | 'final';
   meaning_vi: string;
+}
+
+export interface AccentComparison {
+  hasDifference: boolean;
+  ukIpa?: string;
+  usIpa?: string;
+  differenceExplanation: BilingualText;
+  contrastExamples?: {
+    word: string;
+    ukIpa: string;
+    usIpa: string;
+    note: BilingualText;
+  }[];
 }
 
 export interface MinimalPair {
@@ -99,6 +114,7 @@ export interface PhonemeData {
   };
   miniDialogue: MiniDialogue;
   vietnamesePitfalls: VietnamesePitfall;
+  accentComparison?: AccentComparison;
 }
 
 export interface AudioTake {
@@ -133,6 +149,7 @@ export interface PronunciationFeedback {
   target_detected?: boolean;
   final_sound_detected?: boolean;
   confidence?: 'high' | 'medium' | 'low';
+  accent?: Accent;
 }
 
 
@@ -141,7 +158,8 @@ export interface ReadingExercise {
   type: 'sentence' | 'paragraph';
   title: BilingualText;
   text: string;
-  ipa: string;
+  ipa: string; // British (RP) IPA
+  ipa_us?: string; // American (GA) IPA
   translation_vi: string;
   targetPhonemes: string[]; // e.g. ['iː', 'ɪ'] or ['θ', 'ð']
   targetSoundsDescription: BilingualText;

@@ -18,12 +18,13 @@ import {
   Check,
   Headphones
 } from 'lucide-react';
-import { ReadingExercise, ReadingScoreResult } from '../types';
+import { ReadingExercise, ReadingScoreResult, Accent } from '../types';
 import { READING_EXERCISES } from '../data/readingExercises';
-import { playBritishSpeech, stopAllAudio } from '../utils/audio';
+import { playSpeech, stopAllAudio } from '../utils/audio';
 
 interface ReadingPracticeModuleProps {
   lang: 'vi' | 'en';
+  currentAccent?: Accent;
   onCompleteExercise: (exerciseId: string, score: number) => void;
   completedIds: string[];
   teacherAvatar?: string;
@@ -31,11 +32,13 @@ interface ReadingPracticeModuleProps {
 
 export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
   lang,
+  currentAccent = 'uk',
   onCompleteExercise,
   completedIds,
   teacherAvatar = '/yellow_chick_badge.jpg'
 }) => {
   const [selectedExerciseId, setSelectedExerciseId] = useState<string>(READING_EXERCISES[0].id);
+  const [accent, setAccent] = useState<Accent>(currentAccent);
   const [filterType, setFilterType] = useState<'all' | 'sentence' | 'paragraph'>('all');
   const [showIpa, setShowIpa] = useState<boolean>(true);
   const [showTranslation, setShowTranslation] = useState<boolean>(true);
@@ -78,6 +81,12 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
   }, [selectedExerciseId]);
 
   useEffect(() => {
+    if (currentAccent) {
+      setAccent(currentAccent);
+    }
+  }, [currentAccent]);
+
+  useEffect(() => {
     return () => {
       stopAllAudio();
       if (timerRef.current) clearInterval(timerRef.current);
@@ -88,8 +97,8 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
     };
   }, []);
 
-  const handlePlayReference = async (speed: number = 1.0) => {
-    if (isPlayingReference && currentSpeed === speed) {
+  const handlePlayReference = async (speed: number = 1.0, chosenAccent: Accent = accent) => {
+    if (isPlayingReference && currentSpeed === speed && accent === chosenAccent) {
       stopAllAudio();
       setIsPlayingReference(false);
       return;
@@ -98,8 +107,9 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
     stopAllAudio();
     setIsPlayingReference(true);
     setCurrentSpeed(speed);
+    setAccent(chosenAccent);
 
-    await playBritishSpeech(activeExercise.text, speed);
+    await playSpeech(activeExercise.text, chosenAccent, speed);
     setIsPlayingReference(false);
   };
 
@@ -228,7 +238,8 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
           mimeType: blob.type || 'audio/webm',
           targetText: activeExercise.text,
           targetPhonemes: activeExercise.targetPhonemes,
-          textType: activeExercise.type
+          textType: activeExercise.type,
+          accent
         })
       });
 
@@ -514,9 +525,21 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
               </div>
 
               {showIpa && (
-                <div className="p-2.5 bg-white rounded-lg border border-slate-200 text-xs font-mono text-slate-600 leading-relaxed">
-                  <span className="text-slate-400 font-sans mr-1.5 font-bold uppercase text-[10px]">IPA (RP):</span>
-                  {activeExercise.ipa}
+                <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5 text-xs font-mono">
+                  <div className="flex items-start sm:items-center gap-2">
+                    <span className="text-rose-700 font-sans font-bold text-[10px] px-1.5 py-0.5 rounded bg-rose-50 border border-rose-200 shrink-0">
+                      🇬🇧 IPA (RP):
+                    </span>
+                    <span className="text-slate-700 leading-relaxed">{activeExercise.ipa}</span>
+                  </div>
+                  {activeExercise.ipa_us && (
+                    <div className="flex items-start sm:items-center gap-2 border-t border-slate-100 pt-1.5">
+                      <span className="text-sky-700 font-sans font-bold text-[10px] px-1.5 py-0.5 rounded bg-sky-50 border border-sky-200 shrink-0">
+                        🇺🇸 IPA (GA):
+                      </span>
+                      <span className="text-slate-700 leading-relaxed">{activeExercise.ipa_us}</span>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -528,41 +551,84 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
               )}
             </div>
 
-            {/* Native Audio Reference Controls */}
-            <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-slate-100/70 rounded-xl border border-slate-200">
-              <div className="flex items-center gap-2">
-                <Headphones className="w-4 h-4 text-slate-600" />
-                <span className="text-xs font-bold text-slate-700">
-                  {lang === 'vi' ? 'Mẫu phát âm Anh-Anh (RP):' : 'Native British RP Audio:'}
-                </span>
+            {/* Native Audio Reference Controls with Dual Accent Choice */}
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <Headphones className="w-4 h-4 text-slate-600" />
+                  <span className="text-xs font-bold text-slate-800">
+                    {lang === 'vi' ? 'Chuẩn giọng luyện đọc mục tiêu:' : 'Target Practice Accent:'}
+                  </span>
+                </div>
+
+                {/* Accent selector pills */}
+                <div className="inline-flex rounded-lg bg-white p-0.5 border border-slate-200 shadow-2xs">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAccent('uk');
+                      handlePlayReference(currentSpeed, 'uk');
+                    }}
+                    className={`px-3 py-1 rounded-md text-xs font-bold transition flex items-center gap-1.5 ${
+                      accent === 'uk'
+                        ? 'bg-rose-600 text-white shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <span>🇬🇧 Chuẩn Anh - Anh (RP)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAccent('us');
+                      handlePlayReference(currentSpeed, 'us');
+                    }}
+                    className={`px-3 py-1 rounded-md text-xs font-bold transition flex items-center gap-1.5 ${
+                      accent === 'us'
+                        ? 'bg-sky-600 text-white shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <span>🇺🇸 Chuẩn Anh - Mỹ (GA)</span>
+                  </button>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => handlePlayReference(1.0)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
-                    isPlayingReference && currentSpeed === 1.0
-                      ? 'bg-rose-600 text-white'
-                      : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  {isPlayingReference && currentSpeed === 1.0 ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                  <span>{lang === 'vi' ? 'Nghe chuẩn (1.0x)' : 'Play (1.0x)'}</span>
-                </button>
+              {/* Speed & Playback controls */}
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200/80">
+                <span className="text-[11px] text-slate-500 font-medium">
+                  {lang === 'vi'
+                    ? `Đang chọn giọng: ${accent === 'us' ? 'Mỹ (General American)' : 'Anh (Received Pronunciation)'}`
+                    : `Active accent: ${accent === 'us' ? 'American (GA)' : 'British (RP)'}`}
+                </span>
 
-                <button
-                  type="button"
-                  onClick={() => handlePlayReference(0.75)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
-                    isPlayingReference && currentSpeed === 0.75
-                      ? 'bg-rose-600 text-white'
-                      : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
-                  }`}
-                >
-                  {isPlayingReference && currentSpeed === 0.75 ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-                  <span>{lang === 'vi' ? 'Nghe chậm (0.75x)' : 'Slow (0.75x)'}</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handlePlayReference(1.0, accent)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                      isPlayingReference && currentSpeed === 1.0
+                        ? (accent === 'us' ? 'bg-sky-600 text-white' : 'bg-rose-600 text-white')
+                        : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    {isPlayingReference && currentSpeed === 1.0 ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                    <span>{lang === 'vi' ? 'Nghe chuẩn (1.0x)' : 'Play (1.0x)'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handlePlayReference(0.75, accent)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                      isPlayingReference && currentSpeed === 0.75
+                        ? (accent === 'us' ? 'bg-sky-600 text-white' : 'bg-rose-600 text-white')
+                        : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    {isPlayingReference && currentSpeed === 0.75 ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                    <span>{lang === 'vi' ? 'Nghe chậm (0.75x)' : 'Slow (0.75x)'}</span>
+                  </button>
+                </div>
               </div>
             </div>
 

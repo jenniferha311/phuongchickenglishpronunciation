@@ -1,43 +1,93 @@
 /**
- * British English Audio Engine:
- * - SpeechSynthesis with en-GB voices and speed rates (1.0x and 0.75x)
+ * Dual Accent Audio Engine (UK British RP & US American GA):
+ * - SpeechSynthesis with en-GB (British) and en-US (American) voices
  * - Web Audio API formant-based phoneme acoustic synthesizer fallback
  */
+import { Accent } from '../types';
 
-let cachedVoice: SpeechSynthesisVoice | null = null;
+let cachedGbVoice: SpeechSynthesisVoice | null = null;
+let cachedUsVoice: SpeechSynthesisVoice | null = null;
 
 export function getBritishVoice(): SpeechSynthesisVoice | null {
   if (typeof window === 'undefined' || !window.speechSynthesis) return null;
-  if (cachedVoice) return cachedVoice;
+  if (cachedGbVoice) return cachedGbVoice;
 
   const voices = window.speechSynthesis.getVoices();
   // 1. Look for explicit British English voices
   const gbVoice = voices.find(
-    (v) => v.lang.toLowerCase() === 'en-gb' || v.name.includes('UK') || v.name.includes('British')
+    (v) =>
+      v.lang.toLowerCase() === 'en-gb' ||
+      v.name.includes('UK') ||
+      v.name.includes('British') ||
+      v.name.includes('England') ||
+      v.name.includes('George') ||
+      v.name.includes('Daniel')
   );
   if (gbVoice) {
-    cachedVoice = gbVoice;
+    cachedGbVoice = gbVoice;
     return gbVoice;
   }
 
-  // 2. Fallback to any English voice
-  const anyEn = voices.find((v) => v.lang.toLowerCase().startsWith('en'));
+  // Fallback to any en voice not explicitly US
+  const anyEn = voices.find((v) => v.lang.toLowerCase().startsWith('en') && !v.lang.toLowerCase().includes('us'));
   if (anyEn) {
-    cachedVoice = anyEn;
+    cachedGbVoice = anyEn;
     return anyEn;
   }
 
-  return voices[0] || null;
+  return voices.find((v) => v.lang.toLowerCase().startsWith('en')) || voices[0] || null;
+}
+
+export function getAmericanVoice(): SpeechSynthesisVoice | null {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return null;
+  if (cachedUsVoice) return cachedUsVoice;
+
+  const voices = window.speechSynthesis.getVoices();
+  // 1. Look for explicit American English voices
+  const usVoice = voices.find(
+    (v) =>
+      v.lang.toLowerCase() === 'en-us' ||
+      v.name.includes('US') ||
+      v.name.includes('United States') ||
+      v.name.includes('American') ||
+      v.name.includes('Samantha') ||
+      v.name.includes('Alex') ||
+      v.name.includes('David') ||
+      v.name.includes('Zira')
+  );
+  if (usVoice) {
+    cachedUsVoice = usVoice;
+    return usVoice;
+  }
+
+  // Fallback to any en-US
+  const anyUs = voices.find((v) => v.lang.toLowerCase().includes('us'));
+  if (anyUs) {
+    cachedUsVoice = anyUs;
+    return anyUs;
+  }
+
+  return voices.find((v) => v.lang.toLowerCase().startsWith('en')) || voices[0] || null;
 }
 
 if (typeof window !== 'undefined' && window.speechSynthesis) {
   window.speechSynthesis.onvoiceschanged = () => {
-    cachedVoice = null;
+    cachedGbVoice = null;
+    cachedUsVoice = null;
     getBritishVoice();
+    getAmericanVoice();
   };
 }
 
 export function playBritishSpeech(text: string, rate: number = 1.0): Promise<void> {
+  return playSpeech(text, 'uk', rate);
+}
+
+export function playAmericanSpeech(text: string, rate: number = 1.0): Promise<void> {
+  return playSpeech(text, 'us', rate);
+}
+
+export function playSpeech(text: string, accent: Accent = 'uk', rate: number = 1.0): Promise<void> {
   return new Promise((resolve) => {
     if (typeof window === 'undefined' || !window.speechSynthesis) {
       resolve();
@@ -47,11 +97,11 @@ export function playBritishSpeech(text: string, rate: number = 1.0): Promise<voi
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
-    const voice = getBritishVoice();
+    const voice = accent === 'us' ? getAmericanVoice() : getBritishVoice();
     if (voice) {
       utterance.voice = voice;
     }
-    utterance.lang = 'en-GB';
+    utterance.lang = accent === 'us' ? 'en-US' : 'en-GB';
     utterance.rate = Math.max(0.5, Math.min(1.5, rate));
     utterance.pitch = 1.0;
 
@@ -72,7 +122,7 @@ export function stopAllAudio(): void {
  * Acoustic phoneme synthesizer for pure isolated phonemes
  * Plays pure vowel formants or consonant bursts using Web Audio API
  */
-export function playIsolatedPhonemeSound(phonemeSymbol: string, rate: number = 1.0): Promise<void> {
+export function playIsolatedPhonemeSound(phonemeSymbol: string, rate: number = 1.0, accent: Accent = 'uk'): Promise<void> {
   return new Promise((resolve) => {
     if (typeof window === 'undefined') {
       resolve();
@@ -82,7 +132,7 @@ export function playIsolatedPhonemeSound(phonemeSymbol: string, rate: number = 1
     const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
     if (!AudioContextClass) {
       // Fallback to speech synth
-      playBritishSpeech(phonemeSymbol, rate).then(resolve);
+      playSpeech(phonemeSymbol, accent, rate).then(resolve);
       return;
     }
 
