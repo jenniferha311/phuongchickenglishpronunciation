@@ -190,7 +190,7 @@ export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
               </div>
             </div>
 
-            {/* Right Column: Examples, Minimal Pairs, B1 Context & Vietnamese Pitfall Alert */}
+            {/* Right Column: Examples, Minimal Pairs, Context & Vietnamese Pitfall Alert */}
             <div className="lg:col-span-6 space-y-4">
               {/* Vietnamese Pitfall Warning Alert with Cô Phượng Chick */}
               {phoneme.vietnamesePitfalls && (
@@ -403,13 +403,13 @@ export const PhonemeDetailView: React.FC<PhonemeDetailViewProps> = ({
                 </div>
               )}
 
-              {/* B1 Practical Context Sentence & Mini Dialogue */}
+              {/* Practical Context Sentence & Mini Dialogue */}
               {phoneme.b1Sentence && (
                 <div className="bg-white border border-slate-200 rounded-xl p-4 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                       <BookOpen className="w-3.5 h-3.5 text-sky-600" />
-                      {lang === 'vi' ? 'Câu ứng dụng giao tiếp B1:' : 'B1 Practice Sentence:'}
+                      {lang === 'vi' ? 'Câu ứng dụng giao tiếp:' : 'Practice Sentence:'}
                     </span>
                     <div className="flex items-center gap-1.5">
                       <button

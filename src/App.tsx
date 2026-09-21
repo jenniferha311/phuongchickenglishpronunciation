@@ -23,11 +23,11 @@ import {
   Phone,
   MessageCircle,
   ExternalLink,
-  ShieldCheck,
-  Upload,
-  X,
   Check,
-  ArrowRightLeft
+  ArrowRightLeft,
+  ChevronRight,
+  Maximize2,
+  X
 } from 'lucide-react';
 
 export default function App() {
@@ -37,78 +37,24 @@ export default function App() {
   const [selectedPhonemeId, setSelectedPhonemeId] = useState<string>('v_i_long');
   const [progress, setProgress] = useState<UserProgress>(() => loadUserProgress());
   const [isBadgesModalOpen, setIsBadgesModalOpen] = useState<boolean>(false);
+  const [isCoverModalOpen, setIsCoverModalOpen] = useState<boolean>(false);
+  const [chibiVariant, setChibiVariant] = useState<'cover' | 'portrait'>('cover');
 
-  // Exact Teacher Cover Photo - synced permanently to server disk
-  const [coverPhotoUrl, setCoverPhotoUrl] = useState<string>(() => {
-    try {
-      return localStorage.getItem('soundquest_teacher_cover_photo') || '/phuong_chick_cover.jpg';
-    } catch {
-      return '/phuong_chick_cover.jpg';
-    }
-  });
-  const [isAdminModalOpen, setIsAdminModalOpen] = useState<boolean>(false);
-  const [isSavingPhoto, setIsSavingPhoto] = useState<boolean>(false);
-  const [adminSaveMessage, setAdminSaveMessage] = useState<string | null>(null);
-
-  // Official badge of Cô Phượng Chick: An adorable yellow baby chick
-  const chickBadge = '/yellow_chick_badge.jpg';
-
-  // Keyboard shortcut Alt+A to open Admin photo sync modal if needed
+  // Ensure clean slate without old photo cache
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.altKey && (e.key === 'a' || e.key === 'A')) {
-        setIsAdminModalOpen((prev) => !prev);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    try {
+      localStorage.removeItem('phuong_chick_custom_photo');
+    } catch {}
   }, []);
 
-  const handlePhotoFile = (file: File) => {
-    if (!file.type.startsWith('image/')) return;
-    setIsSavingPhoto(true);
-    setAdminSaveMessage(null);
+  // Chibi artwork of Cô Phượng Chick (wearing Ao Dai, glasses, and bracelet)
+  const chibiCover16x9 = '/chibi_phuong_chick_cover.jpg';
+  const chibiPortrait4x3 = '/chibi_phuong_chick_portrait.jpg';
+  const currentChibiImage = chibiVariant === 'cover' ? chibiCover16x9 : chibiPortrait4x3;
 
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const base64Data = event.target?.result as string;
-      if (!base64Data) {
-        setIsSavingPhoto(false);
-        return;
-      }
-
-      try {
-        setCoverPhotoUrl(base64Data);
-        try {
-          localStorage.setItem('soundquest_teacher_cover_photo', base64Data);
-        } catch {}
-
-        const response = await fetch('/api/admin/save-photo', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ imageBase64: base64Data }),
-        });
-
-        if (response.ok) {
-          setAdminSaveMessage('Đã lưu ảnh gốc thành công vào máy chủ hệ thống!');
-          setTimeout(() => {
-            setIsAdminModalOpen(false);
-            setAdminSaveMessage(null);
-          }, 2000);
-        }
-      } catch (err) {
-        console.error('Failed to sync to server disk:', err);
-      } finally {
-        setIsSavingPhoto(false);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleAdminPhotoSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) handlePhotoFile(file);
-  };
+  // Mascot badge & Chibi avatar
+  const chickBadge = '/yellow_chick_badge.jpg';
+  const teacherChibiAvatar = '/chibi_phuong_chick_portrait.jpg';
 
   // Sync progress
   useEffect(() => {
@@ -204,15 +150,11 @@ export default function App() {
 
           {/* Gamification Stats, Hotline & Language Switcher */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Quick hotline pill */}
-            <a
-              href="tel:0983243993"
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-full text-xs font-bold transition shadow-2xs"
-              title="Hotline EIE Education"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>0983.243.993</span>
-            </a>
+            {/* Free educational platform badge */}
+            <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-full text-xs font-bold shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+              <span>{lang === 'vi' ? 'Miễn Phí 100% Cho Học Sinh' : '100% Free For All Students'}</span>
+            </div>
 
             {/* Streak & XP pill */}
             <button
@@ -312,7 +254,7 @@ export default function App() {
             <div className="lg:col-span-7 space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-600 text-white text-xs font-black uppercase tracking-wider shadow-sm">
                 <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                <span>EIE Education — English Online Excellence</span>
+                <span>EIE Education — Excellence in Education</span>
               </div>
 
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 leading-tight tracking-tight">
@@ -361,68 +303,106 @@ export default function App() {
                   <span>{lang === 'vi' ? 'So Sánh UK & US 🇬🇧🇺🇸' : 'UK vs US 🇬🇧🇺🇸'}</span>
                 </button>
 
-                <a
-                  href="tel:0983243993"
-                  className="px-4 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-xl text-xs sm:text-sm font-black transition flex items-center gap-1.5 shadow-sm"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>Hotline: 0983243993</span>
-                </a>
+                <div className="px-4 py-3 bg-emerald-100 text-emerald-900 rounded-xl text-xs sm:text-sm font-black transition flex items-center gap-2 border border-emerald-300 shadow-2xs">
+                  <Sparkles className="w-4 h-4 text-emerald-700" />
+                  <span>{lang === 'vi' ? 'Miễn Phí 100% Không Thu Phí' : '100% Free • No Fees'}</span>
+                </div>
               </div>
             </div>
 
-            {/* Right Column: Prominent Character Display (Clean, Fixed, Official for all learners) */}
-            <div className="lg:col-span-5 flex flex-col items-center justify-center">
-              <div className="relative w-full max-w-sm rounded-2xl bg-white p-3 shadow-2xl border-2 border-rose-300 ring-4 ring-rose-100/80 transition transform hover:scale-[1.01]">
-                {/* Character Photo Frame - Exactly as uploaded, 100% Bright, Natural Colors, Zero filters */}
+            {/* Right Column: Chibi Cô Phượng Chick Cover Showcase */}
+            <div className="lg:col-span-5 flex flex-col justify-center">
+              <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white ring-4 ring-rose-300/80 bg-slate-900 group">
+                {/* Variant Switcher Pill & Zoom button */}
+                <div className="absolute top-3 inset-x-3 z-10 flex items-center justify-between pointer-events-none">
+                  <div className="flex rounded-full bg-slate-950/80 backdrop-blur-md p-1 border border-white/20 shadow-lg pointer-events-auto">
+                    <button
+                      type="button"
+                      onClick={() => setChibiVariant('cover')}
+                      className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${
+                        chibiVariant === 'cover'
+                          ? 'bg-rose-600 text-white shadow-xs'
+                          : 'text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      Bìa Toàn Cảnh (16:9)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setChibiVariant('portrait')}
+                      className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${
+                        chibiVariant === 'portrait'
+                          ? 'bg-rose-600 text-white shadow-xs'
+                          : 'text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      Chân Dung (4:3)
+                    </button>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsCoverModalOpen(true)}
+                    className="pointer-events-auto p-2 bg-slate-950/80 hover:bg-rose-600 text-white rounded-full backdrop-blur-md transition shadow-lg border border-white/20 cursor-pointer"
+                    title={lang === 'vi' ? 'Phóng to xem tranh bìa Chibi đầy đủ' : 'View full-size Chibi artwork'}
+                  >
+                    <Maximize2 className="w-4 h-4 text-amber-300" />
+                  </button>
+                </div>
+
+                {/* Main Chibi Artwork Cover */}
                 <div
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const file = e.dataTransfer.files?.[0];
-                    if (file) handlePhotoFile(file);
-                  }}
-                  onDoubleClick={() => setIsAdminModalOpen(true)}
-                  title="Cô Phượng Chick - EIE Education"
-                  className="relative rounded-xl overflow-hidden bg-slate-50 aspect-[2/3] max-h-[460px] flex items-center justify-center shadow-inner"
+                  className="cursor-pointer overflow-hidden relative"
+                  onClick={() => setIsCoverModalOpen(true)}
+                  title={lang === 'vi' ? 'Bấm để phóng to xem tranh bìa Chibi' : 'Click to view full-size cover'}
                 >
                   <img
-                    src={coverPhotoUrl}
-                    alt="Cô Phượng Chick - EIE Education"
+                    src={currentChibiImage}
+                    alt="Cô Phượng Chick Chibi - Áo Dài Đỏ, Kính Cận & Vòng Tay May Mắn"
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-center"
+                    className={`w-full ${
+                      chibiVariant === 'cover' ? 'aspect-16/9 sm:aspect-16/10' : 'aspect-4/3 sm:aspect-1/1'
+                    } object-cover object-top transition duration-500 group-hover:scale-105`}
                   />
-
-                  {/* Top Tag: Verified Teacher with Yellow Chick Badge */}
-                  <div className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-amber-200 shadow-sm flex items-center gap-1.5 text-[11px] font-bold text-slate-900 pointer-events-none">
-                    <img
-                      src={chickBadge}
-                      alt="Phù hiệu Cô Phượng Chick"
-                      className="w-5 h-5 rounded-full object-cover border border-amber-300"
-                    />
-                    <span>Cô Phượng Chick</span>
+                  {/* Subtle hover prompt */}
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center pointer-events-none">
+                    <span className="px-3.5 py-1.5 bg-slate-950/85 text-white rounded-full text-xs font-bold flex items-center gap-1.5 backdrop-blur-xs shadow-lg">
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-300" />
+                      <span>{lang === 'vi' ? 'Bấm để phóng to' : 'Click to enlarge'}</span>
+                    </span>
                   </div>
                 </div>
 
-                {/* Bottom Card Info & Hotline Action */}
-                <div className="mt-2.5 px-3 py-2 flex items-center justify-between gap-2 border-t border-rose-100 bg-rose-50/60 rounded-lg">
-                  <div className="flex flex-col">
-                    <span className="text-xs font-black text-rose-950">EIE Education</span>
-                    <span className="text-[11px] text-slate-600 font-semibold">Chuyên gia phát âm & B1</span>
-                  </div>
+                {/* Bottom Overlay Label */}
+                <div className="bg-gradient-to-t from-slate-950 via-slate-900/90 to-transparent p-4 sm:p-5 text-white">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <img
+                        src={chickBadge}
+                        alt="EIE Education Badge"
+                        className="w-10 h-10 rounded-full border-2 border-amber-300 bg-amber-50 p-0.5 object-cover shrink-0 shadow-sm"
+                      />
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <h4 className="text-sm sm:text-base font-black text-white leading-tight">
+                            Cô Phượng Chick Chibi
+                          </h4>
+                          <span className="px-2 py-0.5 bg-amber-400 text-slate-950 text-[10px] font-black rounded-full uppercase">
+                            Bìa Web
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-amber-200 mt-0.5 font-medium">
+                          {lang === 'vi'
+                            ? 'Áo Dài đỏ truyền thống • Kính cận • Vòng tay'
+                            : 'Traditional Red Ao Dai • Glasses • Bracelet'}
+                        </p>
+                      </div>
+                    </div>
 
-                  <a
-                    href="tel:0983243993"
-                    className="px-3 py-1 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs rounded-lg transition shadow-2xs flex items-center gap-1.5 shrink-0"
-                    title="Liên hệ tư vấn cùng Cô Phượng Chick"
-                  >
-                    <Phone className="w-3.5 h-3.5 text-slate-900" />
-                    <span>0983.243.993</span>
-                  </a>
+                    <span className="px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold border border-emerald-400/50 shadow-xs inline-block shrink-0">
+                      100% Free
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -536,7 +516,7 @@ export default function App() {
               currentAccent={accent}
               onPhonemeMastered={handlePhonemeMastered}
               isCompleted={progress.completedPhonemes.includes(selectedPhoneme.id)}
-              teacherAvatar={chickBadge}
+              teacherAvatar={teacherChibiAvatar}
             />
 
             {/* 2. Full 44 Phonemes Matrix */}
@@ -556,7 +536,7 @@ export default function App() {
             currentAccent={accent}
             onCompleteExercise={handleReadingCompleted}
             completedIds={progress.completedReadings || []}
-            teacherAvatar={chickBadge}
+            teacherAvatar={teacherChibiAvatar}
           />
         )}
 
@@ -588,47 +568,11 @@ export default function App() {
         )}
       </main>
 
-      {/* CONTINUOUS RUNNING AD TICKER (MARQUEE) AT THE BOTTOM */}
-      <div className="sticky bottom-0 z-30 bg-gradient-to-r from-rose-700 via-rose-600 to-amber-600 text-white shadow-xl overflow-hidden py-2.5 border-t border-rose-300/40">
-        <div className="animate-marquee whitespace-nowrap flex items-center gap-8 text-xs sm:text-sm font-bold tracking-wide">
-          <span className="inline-flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-amber-300" />
-            <span>EIE Education — English online Excellence</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 text-amber-200">
-            <Phone className="w-3.5 h-3.5" />
-            <span>Hotline & Zalo: 0983243993</span>
-          </span>
-          <span>•</span>
-          <span>Lớp luyện thi & phát âm chuẩn Anh-Anh cùng Cô Phượng Chick</span>
-          <span>•</span>
-          <span className="inline-flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-amber-300" />
-            <span>EIE Education — English online Excellence</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 text-amber-200">
-            <Phone className="w-3.5 h-3.5" />
-            <span>Hotline & Zalo: 0983243993</span>
-          </span>
-          <span>•</span>
-          <span>Trị dứt điểm nuốt âm đuôi & tự tin đọc trôi chảy B1</span>
-          <span>•</span>
-          <span className="inline-flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-amber-300" />
-            <span>EIE Education — English online Excellence</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 text-amber-200">
-            <Phone className="w-3.5 h-3.5" />
-            <span>0983243993</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Footer with Contact Card */}
-      <footer className="bg-white border-t border-slate-200 pb-12 pt-8">
+      {/* Footer with Educational Info */}
+      <footer className="bg-white border-t border-slate-200 pb-10 pt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          {/* Featured Ad & Info Card */}
-          <div className="bg-rose-50/60 border border-rose-200/80 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Community Free Platform Card */}
+          <div className="bg-gradient-to-r from-rose-50/70 via-amber-50/50 to-emerald-50/60 border border-slate-200 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <img
                 src={chickBadge}
@@ -638,28 +582,27 @@ export default function App() {
               />
               <div>
                 <h4 className="text-base font-black text-slate-900">
-                  EIE Education — English online Excellence
+                  Cô Phượng Chick • EIE Education
                 </h4>
-                <p className="text-xs text-slate-600 mt-0.5">
-                  Đồng hành cùng Cô Phượng Chick • Hotline & Tư vấn khóa học: <strong className="text-rose-700">0983243993</strong>
+                <p className="text-xs text-slate-600 mt-0.5 max-w-2xl leading-relaxed">
+                  {lang === 'vi'
+                    ? 'Nền tảng học phát âm & luyện đọc tiếng Anh cộng đồng — Hoàn toàn miễn phí 100% cho mọi học sinh, giúp các bạn nắm vững 44 âm IPA và tự tin giao tiếp.'
+                    : 'Community English pronunciation & reading platform — 100% free for all students to master 44 IPA phonemes and speak with confidence.'}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <a
-                href="tel:0983243993"
-                className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5"
-              >
-                <Phone className="w-3.5 h-3.5" />
-                <span>Gọi ngay: 0983243993</span>
-              </a>
+              <span className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-xs inline-flex items-center gap-1.5 shrink-0">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>{lang === 'vi' ? 'Miễn Phí 100% Không Thu Tiền' : '100% Free For All Students'}</span>
+              </span>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 border-t border-slate-100 pt-4">
             <p>
-              SoundQuest 44 — British English Pronunciation & Reading for Vietnamese B1 Learners.
+              SoundQuest 44 — English Pronunciation & Reading Platform for Vietnamese Learners.
             </p>
             <div className="flex items-center gap-4">
               <button
@@ -670,69 +613,78 @@ export default function App() {
                 {lang === 'vi' ? 'Thành tích & Dữ liệu' : 'Achievements'}
               </button>
               <span>•</span>
-              <span className="text-slate-400">Powered by Gemini 2.5 Flash</span>
+              <span className="text-slate-400">Cô Phượng Chick • EIE</span>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Admin Photo Sync Modal (Cô Phượng Chick) */}
-      {isAdminModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+      {/* Cover Chibi Lightbox Modal */}
+      {isCoverModalOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200"
+          onClick={() => setIsCoverModalOpen(false)}
+        >
+          <div
+            className="relative max-w-4xl w-full bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-700 p-3 sm:p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-3 text-white border-b border-slate-800">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-rose-600" />
-                <h3 className="font-bold text-slate-900 text-base">Nạp ảnh gốc của Cô Phượng</h3>
+                <span className="text-sm sm:text-base font-bold text-amber-300">
+                  🎨 Tranh Bìa Chibi Cô Phượng Chick
+                </span>
+                <span className="text-xs text-slate-400 hidden md:inline">
+                  (Áo Dài đỏ, kính cận, đeo vòng tay & chú gà con)
+                </span>
               </div>
               <button
-                onClick={() => setIsAdminModalOpen(false)}
-                className="p-1 text-slate-400 hover:text-slate-600 rounded-lg"
+                type="button"
+                onClick={() => setIsCoverModalOpen(false)}
+                className="p-1.5 rounded-full bg-slate-800 hover:bg-rose-600 text-white transition cursor-pointer"
+                title={lang === 'vi' ? 'Đóng' : 'Close'}
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="my-4 space-y-3">
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Tải lên tệp ảnh thực tế của bạn (<strong>ChatGPT Image 10_11_32 9 thg 9, 2026.png</strong>). Hệ thống máy chủ sẽ lưu đè trực tiếp vào tệp tĩnh của hệ thống, giúp toàn bộ học viên truy cập trang web đều nhìn thấy ảnh gốc thực tế 100% không bị thay đổi.
-              </p>
-
-              {adminSaveMessage && (
-                <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-semibold flex items-center gap-2">
-                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{adminSaveMessage}</span>
-                </div>
-              )}
-
-              <label className="flex flex-col items-center justify-center border-2 border-dashed border-rose-300 hover:border-rose-500 bg-rose-50/50 hover:bg-rose-50 rounded-xl p-6 cursor-pointer transition">
-                <Upload className="w-8 h-8 text-rose-500 mb-2 animate-bounce" />
-                <span className="text-sm font-bold text-slate-800">Bấm để chọn tệp ảnh từ máy của bạn</span>
-                <span className="text-[11px] text-slate-500 mt-1">Giữ nguyên 100% khuôn mặt, áo dài đỏ và chi tiết gốc</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleAdminPhotoSelected}
-                  className="hidden"
-                  disabled={isSavingPhoto}
-                />
-              </label>
-
-              {isSavingPhoto && (
-                <div className="text-center text-xs font-bold text-rose-600 py-1">
-                  Đang lưu ảnh gốc lên máy chủ hệ thống...
-                </div>
-              )}
+            <div className="mt-3 rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+              <img
+                src={currentChibiImage}
+                alt="Cô Phượng Chick Chibi - Tranh Bìa Web"
+                referrerPolicy="no-referrer"
+                className="w-full max-h-[72vh] object-contain"
+              />
             </div>
 
-            <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-slate-500 text-xs">
-              <span>Phím tắt mở nhanh: Alt + A</span>
-              <button
-                onClick={() => setIsAdminModalOpen(false)}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition"
-              >
-                Đóng
-              </button>
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 text-xs text-slate-300">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setChibiVariant('cover')}
+                  className={`px-3 py-1.5 rounded-full font-semibold transition cursor-pointer ${
+                    chibiVariant === 'cover'
+                      ? 'bg-rose-600 text-white shadow-xs'
+                      : 'bg-slate-800 text-slate-300 hover:text-white'
+                  }`}
+                >
+                  Toàn Cảnh 16:9
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setChibiVariant('portrait')}
+                  className={`px-3 py-1.5 rounded-full font-semibold transition cursor-pointer ${
+                    chibiVariant === 'portrait'
+                      ? 'bg-rose-600 text-white shadow-xs'
+                      : 'bg-slate-800 text-slate-300 hover:text-white'
+                  }`}
+                >
+                  Chân Dung 4:3
+                </button>
+              </div>
+              <span className="text-emerald-400 font-semibold">
+                ✨ SoundQuest 44 — Học phát âm miễn phí 100% cùng Cô Phượng Chick
+              </span>
             </div>
           </div>
         </div>

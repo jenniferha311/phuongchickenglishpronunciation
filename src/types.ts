@@ -160,11 +160,11 @@ export interface ReadingExercise {
   text: string;
   ipa: string; // British (RP) IPA
   ipa_us?: string; // American (GA) IPA
-  translation_vi: string;
+  translation_vi?: string;
   targetPhonemes: string[]; // e.g. ['iː', 'ɪ'] or ['θ', 'ð']
   targetSoundsDescription: BilingualText;
   keyWordsWithPhonemes: { word: string; phoneme: string }[];
-  difficulty: 'B1-Intro' | 'B1-Standard' | 'B1-Challenge';
+  difficulty: 'Intro' | 'Standard' | 'Challenge';
   contextCategory: 'daily' | 'travel' | 'work' | 'story';
 }
 

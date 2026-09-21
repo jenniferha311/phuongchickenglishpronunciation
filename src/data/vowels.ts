@@ -70,8 +70,8 @@ export const VOWELS_DATA: PhonemeData[] = [
         vi: 'Phát âm quá ngắn giống âm "i" tiếng Việt, dễ gây nhầm lẫn nguy hiểm giữa "sheet" và "shit", hay "leave" và "live".'
       },
       howToFix: {
-        en: 'Smile actively, tense your cheek muscles, and sustain the sound for at least 0.3 seconds.',
-        vi: 'Chủ động bè khóe môi sang hai bên, căng nhẹ cơ má và ngân âm tối thiểu 0.3 giây.'
+        en: 'Smile actively, tense your cheek muscles, and sustain the long vowel sound clearly.',
+        vi: 'Chủ động bè khóe môi sang hai bên, căng nhẹ cơ má và ngân dài rõ ràng âm /iː/.'
       }
     }
   },
@@ -472,8 +472,8 @@ export const VOWELS_DATA: PhonemeData[] = [
         vi: 'Uốn lưỡi âm "r" không cần thiết trong giọng Anh-Anh, hoặc phát âm quá ngắn.'
       },
       howToFix: {
-        en: 'Round your lips tightly and hold the sound steadily without curling your tongue tip.',
-        vi: 'Khum tròn môi và giữ đều thanh âm tối thiểu nửa giây, không uốn cong đầu lưỡi.'
+        en: 'Round your lips tightly and hold the steady long vowel without curling your tongue tip.',
+        vi: 'Khum tròn môi và giữ thanh âm ngân dài đều đặn, không uốn cong đầu lưỡi.'
       }
     }
   },
@@ -539,8 +539,8 @@ export const VOWELS_DATA: PhonemeData[] = [
         vi: 'Đọc thành âm "u" tiếng Việt (chúm môi quá chặt và kéo dài thành âm dài).'
       },
       howToFix: {
-        en: 'Relax your lips; imagine a sound between "u" and "ơ", keep it under 0.2 seconds.',
-        vi: 'Thả lỏng khóe môi, âm thanh như lai giữa "u" và "ơ", ngắt thật nhanh dưới 0.2 giây.'
+        en: 'Relax your lips; imagine a sound between "u" and "ơ", keep it short and release quickly.',
+        vi: 'Thả lỏng khóe môi, âm thanh như lai giữa "u" và "ơ", phát âm ngắn và ngắt nhanh dứt khoát.'
       }
     }
   },
@@ -748,7 +748,7 @@ export const VOWELS_DATA: PhonemeData[] = [
         vi: 'Uốn lưỡi tạo âm "r" kiểu Mỹ hoặc đọc cộc lốc như âm "ơ" tiếng Việt.'
       },
       howToFix: {
-        en: 'Keep your tongue completely flat and motionless, and hold the steady sound for half a second.',
+        en: 'Keep your tongue completely flat and motionless, and hold the steady long vowel sound.',
         vi: 'Giữ đầu lưỡi nằm yên phẳng tuyệt đối, không uốn cong và ngân dài đều đặn.'
       }
     }

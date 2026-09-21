@@ -1,6 +1,6 @@
 {
   "name": "SoundQuest 44",
-  "description": "Hành trình chinh phục 44 âm tiếng Anh chuẩn Quốc tế: Anh - Anh (British RP) & Anh - Mỹ (General American) dành cho người học B1",
+  "description": "Hành trình chinh phục 44 âm tiếng Anh chuẩn Quốc tế: Anh - Anh (British RP) & Anh - Mỹ (General American)",
   "requestFramePermissions": ["microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

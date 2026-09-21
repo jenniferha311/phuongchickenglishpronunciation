@@ -647,8 +647,8 @@ export const AudioRecorderStudio: React.FC<AudioRecorderStudioProps> = ({
                             <Sparkles className="w-4 h-4 text-amber-500" />
                             {lang === 'vi' ? 'Cô Phượng Chick bảo cậu rằng...' : 'Cô Phượng Chick advises you:'}
                           </span>
-                          <span className="text-[10px] font-semibold px-2 py-0.5 bg-slate-100 text-slate-700 rounded-full border border-slate-200">
-                            EIE Education (0983243993)
+                          <span className="text-[10px] font-semibold px-2 py-0.5 bg-rose-50 text-rose-700 rounded-full border border-rose-200">
+                            EIE Education • Miễn phí 100%
                           </span>
                         </div>
                         <p className="text-xs text-slate-700 leading-relaxed font-medium">

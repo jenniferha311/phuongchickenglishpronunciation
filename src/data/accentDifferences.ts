@@ -404,7 +404,7 @@ export const ACCENT_RULES: AccentRule[] = [
       en: 'Special Vocabulary Differences & Stress Shifts',
       vi: 'Từ vựng có phát âm & trọng âm đặc biệt khác biệt'
     },
-    badge: 'Thực chiến B1 #7',
+    badge: 'Thực chiến #7',
     summary: {
       en: 'Common daily words with entirely different vowel sounds or stress placements between UK and US.',
       vi: 'Các từ vựng thông dụng hàng ngày có cách phát âm hoặc vị trí nhấn trọng âm hoàn toàn khác nhau giữa Anh - Anh và Anh - Mỹ.'

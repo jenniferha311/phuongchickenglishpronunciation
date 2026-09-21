@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  BookOpen,
   Volume2,
   Mic,
   Square,
@@ -41,7 +40,6 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
   const [accent, setAccent] = useState<Accent>(currentAccent);
   const [filterType, setFilterType] = useState<'all' | 'sentence' | 'paragraph'>('all');
   const [showIpa, setShowIpa] = useState<boolean>(true);
-  const [showTranslation, setShowTranslation] = useState<boolean>(true);
 
   // Audio reference states
   const [isPlayingReference, setIsPlayingReference] = useState<boolean>(false);
@@ -308,7 +306,7 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
               </div>
               <p className="text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed">
                 {lang === 'vi'
-                  ? 'Luyện đọc các câu và đoạn văn B1 chuẩn Anh-Anh (British RP) chứa các bẫy âm người Việt hay mắc. Nhận chấm điểm độ chuẩn xác âm vị, độ lưu loát và lời nhận xét chi tiết từ cô Phượng Chick!'
+                  ? 'Luyện đọc các câu và đoạn văn chuẩn Anh-Anh (British RP) chứa các bẫy âm người Việt hay mắc. Nhận chấm điểm độ chuẩn xác âm vị, độ lưu loát và lời nhận xét chi tiết từ cô Phượng Chick!'
                   : 'Practice reading British RP sentences & paragraphs targeting tricky phonemes. Get scored on phonemic accuracy, fluency, and personalized advice from Cô Phượng Chick!'}
               </p>
             </div>
@@ -342,7 +340,7 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            {lang === 'vi' ? 'Tất cả (8 bài)' : 'All (8)'}
+            {lang === 'vi' ? `Tất cả (${READING_EXERCISES.length} bài)` : `All (${READING_EXERCISES.length})`}
           </button>
           <button
             type="button"
@@ -353,7 +351,9 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            {lang === 'vi' ? 'Câu ngắn (5 câu)' : 'Sentences (5)'}
+            {lang === 'vi'
+              ? `Câu ngắn (${READING_EXERCISES.filter((e) => e.type === 'sentence').length} câu)`
+              : `Sentences (${READING_EXERCISES.filter((e) => e.type === 'sentence').length})`}
           </button>
           <button
             type="button"
@@ -364,7 +364,9 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            {lang === 'vi' ? 'Đoạn văn (3 đoạn)' : 'Paragraphs (3)'}
+            {lang === 'vi'
+              ? `Đoạn văn (${READING_EXERCISES.filter((e) => e.type === 'paragraph').length} đoạn)`
+              : `Paragraphs (${READING_EXERCISES.filter((e) => e.type === 'paragraph').length})`}
           </button>
         </div>
       </div>
@@ -418,7 +420,7 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
                     <h4 className={`text-xs font-bold leading-snug truncate ${
                       isSelected ? 'text-rose-950' : 'text-slate-800'
                     }`}>
-                      {lang === 'vi' ? exercise.title.vi : exercise.title.en}
+                      {exercise.title.en}
                     </h4>
 
                     <div className="flex flex-wrap gap-1 mt-1.5">
@@ -448,8 +450,8 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
               <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <span className="px-2.5 py-1 bg-rose-50 text-rose-700 text-xs font-bold rounded-lg border border-rose-200">
                   {activeExercise.type === 'sentence'
-                    ? (lang === 'vi' ? 'Bài tập Câu đơn B1' : 'B1 Sentence Drill')
-                    : (lang === 'vi' ? 'Bài tập Đoạn văn B1' : 'B1 Paragraph Drill')}
+                    ? (lang === 'vi' ? 'Bài tập Câu đơn' : 'Sentence Drill')
+                    : (lang === 'vi' ? 'Bài tập Đoạn văn' : 'Paragraph Drill')}
                 </span>
 
                 <div className="flex items-center gap-1.5">
@@ -468,10 +470,10 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
               </div>
 
               <h3 className="text-lg font-black text-slate-900">
-                {lang === 'vi' ? activeExercise.title.vi : activeExercise.title.en}
+                {activeExercise.title.en}
               </h3>
               <p className="text-xs text-slate-600 mt-1">
-                {lang === 'vi' ? activeExercise.targetSoundsDescription.vi : activeExercise.targetSoundsDescription.en}
+                {activeExercise.targetSoundsDescription.en}
               </p>
             </div>
 
@@ -489,7 +491,7 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
                       <span
                         key={idx}
                         className="inline-block mx-0.5 px-1 py-0.5 bg-rose-100/70 border-b-2 border-rose-500 text-rose-950 font-semibold rounded cursor-help"
-                        title={`Âm mục tiêu: /${matched.phoneme}/`}
+                        title={`Target Sound: /${matched.phoneme}/`}
                       >
                         {w}
                       </span>
@@ -499,7 +501,7 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
                 })}
               </div>
 
-              {/* Toggle Controls: IPA & Translation */}
+              {/* Toggle Controls: IPA */}
               <div className="flex flex-wrap items-center gap-3 pt-3 border-t border-slate-200/60">
                 <button
                   type="button"
@@ -510,17 +512,6 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
                 >
                   <Languages className="w-3.5 h-3.5" />
                   <span>{showIpa ? (lang === 'vi' ? 'Ẩn ký âm IPA' : 'Hide IPA') : (lang === 'vi' ? 'Hiện ký âm IPA' : 'Show IPA')}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setShowTranslation(!showTranslation)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold transition ${
-                    showTranslation ? 'bg-slate-200 text-slate-800' : 'bg-slate-100 text-slate-500 hover:text-slate-700'
-                  }`}
-                >
-                  <BookOpen className="w-3.5 h-3.5" />
-                  <span>{showTranslation ? (lang === 'vi' ? 'Ẩn nghĩa tiếng Việt' : 'Hide Translation') : (lang === 'vi' ? 'Hiện nghĩa tiếng Việt' : 'Show Translation')}</span>
                 </button>
               </div>
 
@@ -540,13 +531,6 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
                       <span className="text-slate-700 leading-relaxed">{activeExercise.ipa_us}</span>
                     </div>
                   )}
-                </div>
-              )}
-
-              {showTranslation && (
-                <div className="p-2.5 bg-rose-50/50 rounded-lg border border-rose-100 text-xs text-rose-950 italic leading-relaxed">
-                  <span className="font-sans font-bold uppercase text-[10px] text-rose-600 not-italic mr-1.5">Dịch nghĩa:</span>
-                  {activeExercise.translation_vi}
                 </div>
               )}
             </div>
@@ -787,8 +771,8 @@ export const ReadingPracticeModule: React.FC<ReadingPracticeModuleProps> = ({
                           <Sparkles className="w-4 h-4 text-amber-500" />
                           {lang === 'vi' ? 'Cô Phượng Chick bảo cậu rằng...' : 'Cô Phượng Chick advises you:'}
                         </span>
-                        <span className="text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-700 rounded-full border border-slate-200">
-                          EIE Education - 0983243993
+                        <span className="text-[10px] font-bold px-2 py-0.5 bg-rose-50 text-rose-700 rounded-full border border-rose-200">
+                          Cô Phượng Chick • Miễn phí 100%
                         </span>
                       </div>
                       <p className="text-xs text-slate-700 leading-relaxed font-medium">

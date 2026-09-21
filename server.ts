@@ -37,51 +37,7 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Auto-detect and sync if teacher uploaded an image file (e.g. ChatGPT Image 10_11_32 9 thg 9, 2026.png) directly to project
-function autoSyncUploadedTeacherImage() {
-  try {
-    const searchDirs = [
-      process.cwd(),
-      path.join(process.cwd(), "public"),
-      path.join(process.cwd(), "src"),
-    ];
-
-    for (const dir of searchDirs) {
-      if (!fs.existsSync(dir)) continue;
-      const entries = fs.readdirSync(dir);
-      for (const item of entries) {
-        const lower = item.toLowerCase();
-        if (
-          lower.includes("chatgpt") ||
-          lower.includes("10_11_32") ||
-          lower.includes("aodai") ||
-          (lower.endsWith(".png") && !lower.includes("icon") && !lower.includes("badge"))
-        ) {
-          const fullPath = path.join(dir, item);
-          const stat = fs.statSync(fullPath);
-          if (stat.isFile() && stat.size > 20000) {
-            const data = fs.readFileSync(fullPath);
-            const targets = [
-              path.join(process.cwd(), "public", "phuong_chick_cover.jpg"),
-              path.join(process.cwd(), "dist", "phuong_chick_cover.jpg"),
-            ];
-            for (const t of targets) {
-              const targetDir = path.dirname(t);
-              if (!fs.existsSync(targetDir)) fs.mkdirSync(targetDir, { recursive: true });
-              fs.writeFileSync(t, data);
-            }
-            console.log(`[Auto-Sync] Synchronized original teacher photo from ${item} to phuong_chick_cover.jpg`);
-            return;
-          }
-        }
-      }
-    }
-  } catch (err) {
-    console.warn("Auto-sync teacher image error:", err);
-  }
-}
-
-autoSyncUploadedTeacherImage();
+// Server photo endpoints
 
 // Admin endpoint to permanently save the teacher's exact original photo to server disk
 app.post("/api/admin/save-photo", (req, res) => {
@@ -136,7 +92,7 @@ app.post("/api/pronunciation-feedback", async (req, res) => {
     const ai = getGeminiClient();
 
     // System prompt following the user's teacher persona (Cô Phượng Chick from EIE Education):
-    const systemPrompt = `You are Cô Phượng Chick, an affectionate, expert British English pronunciation teacher from EIE Education (English Online Excellence, hotline 0983243993).
+    const systemPrompt = `You are Cô Phượng Chick, an affectionate, expert British English pronunciation teacher from EIE Education (Excellence in Education, hotline 0983243993).
 You are evaluating a Vietnamese B1 learner's audio attempt for the target word/sentence "${targetText}" focusing on the target phoneme "${targetPhoneme}".
 Learner context: ${contextType}.
 CRITICAL INSTRUCTION: All Vietnamese feedback and tips MUST be framed with your warm teacher persona, explicitly starting with or including "Cô Phượng Chick bảo cậu rằng..." as friendly, encouraging mentor advice.
@@ -265,7 +221,7 @@ app.post("/api/evaluate-reading", async (req, res) => {
         const base64Data = audioBase64.replace(/^data:[^;]+;base64,/, "");
         const mimeType = (req.body.mimeType || "audio/webm").split(";")[0];
 
-        const prompt = `You are Cô Phượng Chick from EIE Education (English Online Excellence, hotline 0983243993).
+        const prompt = `You are Cô Phượng Chick from EIE Education (Excellence in Education, hotline 0983243993).
 Evaluate the learner's reading of this ${textType}:
 "${targetText}"
 Target phonemes to inspect: ${JSON.stringify(targetPhonemes)}.
