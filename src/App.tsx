@@ -38,23 +38,11 @@ export default function App() {
   const [progress, setProgress] = useState<UserProgress>(() => loadUserProgress());
   const [isBadgesModalOpen, setIsBadgesModalOpen] = useState<boolean>(false);
   const [isCoverModalOpen, setIsCoverModalOpen] = useState<boolean>(false);
-  const [chibiVariant, setChibiVariant] = useState<'cover' | 'portrait'>('cover');
 
-  // Ensure clean slate without old photo cache
-  useEffect(() => {
-    try {
-      localStorage.removeItem('phuong_chick_custom_photo');
-    } catch {}
-  }, []);
-
-  // Chibi artwork of Cô Phượng Chick (wearing Ao Dai, glasses, and bracelet)
-  const chibiCover16x9 = '/chibi_phuong_chick_cover.jpg';
-  const chibiPortrait4x3 = '/chibi_phuong_chick_portrait.jpg';
-  const currentChibiImage = chibiVariant === 'cover' ? chibiCover16x9 : chibiPortrait4x3;
-
-  // Mascot badge & Chibi avatar
+  // Artwork of Cô Phượng Chick
+  const coverImage = '/chibi_phuong_chick_cover.jpg';
   const chickBadge = '/yellow_chick_badge.jpg';
-  const teacherChibiAvatar = '/chibi_phuong_chick_portrait.jpg';
+  const teacherAvatar = '/chibi_phuong_chick_portrait.jpg';
 
   // Sync progress
   useEffect(() => {
@@ -310,99 +298,43 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right Column: Chibi Cô Phượng Chick Cover Showcase */}
+            {/* Right Column: Cô Phượng Chick Cover Showcase */}
             <div className="lg:col-span-5 flex flex-col justify-center">
               <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white ring-4 ring-rose-300/80 bg-slate-900 group">
-                {/* Variant Switcher Pill & Zoom button */}
-                <div className="absolute top-3 inset-x-3 z-10 flex items-center justify-between pointer-events-none">
-                  <div className="flex rounded-full bg-slate-950/80 backdrop-blur-md p-1 border border-white/20 shadow-lg pointer-events-auto">
-                    <button
-                      type="button"
-                      onClick={() => setChibiVariant('cover')}
-                      className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${
-                        chibiVariant === 'cover'
-                          ? 'bg-rose-600 text-white shadow-xs'
-                          : 'text-slate-300 hover:text-white'
-                      }`}
-                    >
-                      Bìa Toàn Cảnh (16:9)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setChibiVariant('portrait')}
-                      className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer ${
-                        chibiVariant === 'portrait'
-                          ? 'bg-rose-600 text-white shadow-xs'
-                          : 'text-slate-300 hover:text-white'
-                      }`}
-                    >
-                      Chân Dung (4:3)
-                    </button>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setIsCoverModalOpen(true)}
-                    className="pointer-events-auto p-2 bg-slate-950/80 hover:bg-rose-600 text-white rounded-full backdrop-blur-md transition shadow-lg border border-white/20 cursor-pointer"
-                    title={lang === 'vi' ? 'Phóng to xem tranh bìa Chibi đầy đủ' : 'View full-size Chibi artwork'}
-                  >
-                    <Maximize2 className="w-4 h-4 text-amber-300" />
-                  </button>
-                </div>
-
-                {/* Main Chibi Artwork Cover */}
+                {/* Main Artwork Cover */}
                 <div
                   className="cursor-pointer overflow-hidden relative"
                   onClick={() => setIsCoverModalOpen(true)}
-                  title={lang === 'vi' ? 'Bấm để phóng to xem tranh bìa Chibi' : 'Click to view full-size cover'}
+                  title={lang === 'vi' ? 'Bấm để phóng to' : 'Click to view full size'}
                 >
                   <img
-                    src={currentChibiImage}
-                    alt="Cô Phượng Chick Chibi - Áo Dài Đỏ, Kính Cận & Vòng Tay May Mắn"
+                    src={coverImage}
+                    alt="Cô Phượng Chick"
                     referrerPolicy="no-referrer"
-                    className={`w-full ${
-                      chibiVariant === 'cover' ? 'aspect-16/9 sm:aspect-16/10' : 'aspect-4/3 sm:aspect-1/1'
-                    } object-cover object-top transition duration-500 group-hover:scale-105`}
+                    className="w-full aspect-16/10 object-cover object-top transition duration-500 group-hover:scale-105"
                   />
-                  {/* Subtle hover prompt */}
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center pointer-events-none">
-                    <span className="px-3.5 py-1.5 bg-slate-950/85 text-white rounded-full text-xs font-bold flex items-center gap-1.5 backdrop-blur-xs shadow-lg">
-                      <Maximize2 className="w-3.5 h-3.5 text-amber-300" />
-                      <span>{lang === 'vi' ? 'Bấm để phóng to' : 'Click to enlarge'}</span>
-                    </span>
-                  </div>
                 </div>
 
-                {/* Bottom Overlay Label */}
-                <div className="bg-gradient-to-t from-slate-950 via-slate-900/90 to-transparent p-4 sm:p-5 text-white">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5">
-                      <img
-                        src={chickBadge}
-                        alt="EIE Education Badge"
-                        className="w-10 h-10 rounded-full border-2 border-amber-300 bg-amber-50 p-0.5 object-cover shrink-0 shadow-sm"
-                      />
-                      <div>
-                        <div className="flex items-center gap-1.5">
-                          <h4 className="text-sm sm:text-base font-black text-white leading-tight">
-                            Cô Phượng Chick Chibi
-                          </h4>
-                          <span className="px-2 py-0.5 bg-amber-400 text-slate-950 text-[10px] font-black rounded-full uppercase">
-                            Bìa Web
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-amber-200 mt-0.5 font-medium">
-                          {lang === 'vi'
-                            ? 'Áo Dài đỏ truyền thống • Kính cận • Vòng tay'
-                            : 'Traditional Red Ao Dai • Glasses • Bracelet'}
-                        </p>
-                      </div>
-                    </div>
-
-                    <span className="px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold border border-emerald-400/50 shadow-xs inline-block shrink-0">
-                      100% Free
-                    </span>
+                {/* Clean Bar without annotations */}
+                <div className="bg-slate-950/95 px-5 py-3 text-white flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <img
+                      src={chickBadge}
+                      alt="Cô Phượng Chick"
+                      className="w-8 h-8 rounded-full border border-amber-300 bg-amber-50 p-0.5 object-cover shrink-0 shadow-xs"
+                    />
+                    <h4 className="text-sm sm:text-base font-black text-white leading-tight">
+                      Cô Phượng Chick
+                    </h4>
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsCoverModalOpen(true)}
+                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-rose-600 text-white transition cursor-pointer"
+                    title={lang === 'vi' ? 'Phóng to' : 'Enlarge'}
+                  >
+                    <Maximize2 className="w-4 h-4 text-amber-300" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -516,7 +448,7 @@ export default function App() {
               currentAccent={accent}
               onPhonemeMastered={handlePhonemeMastered}
               isCompleted={progress.completedPhonemes.includes(selectedPhoneme.id)}
-              teacherAvatar={teacherChibiAvatar}
+              teacherAvatar={teacherAvatar}
             />
 
             {/* 2. Full 44 Phonemes Matrix */}
@@ -536,7 +468,7 @@ export default function App() {
             currentAccent={accent}
             onCompleteExercise={handleReadingCompleted}
             completedIds={progress.completedReadings || []}
-            teacherAvatar={teacherChibiAvatar}
+            teacherAvatar={teacherAvatar}
           />
         )}
 
@@ -619,7 +551,7 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Cover Chibi Lightbox Modal */}
+      {/* Cover Lightbox Modal */}
       {isCoverModalOpen && (
         <div
           className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200"
@@ -630,14 +562,9 @@ export default function App() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 text-white border-b border-slate-800">
-              <div className="flex items-center gap-2">
-                <span className="text-sm sm:text-base font-bold text-amber-300">
-                  🎨 Tranh Bìa Chibi Cô Phượng Chick
-                </span>
-                <span className="text-xs text-slate-400 hidden md:inline">
-                  (Áo Dài đỏ, kính cận, đeo vòng tay & chú gà con)
-                </span>
-              </div>
+              <span className="text-sm sm:text-base font-bold text-white">
+                Cô Phượng Chick
+              </span>
               <button
                 type="button"
                 onClick={() => setIsCoverModalOpen(false)}
@@ -650,41 +577,11 @@ export default function App() {
 
             <div className="mt-3 rounded-2xl overflow-hidden bg-black flex items-center justify-center">
               <img
-                src={currentChibiImage}
-                alt="Cô Phượng Chick Chibi - Tranh Bìa Web"
+                src={coverImage}
+                alt="Cô Phượng Chick"
                 referrerPolicy="no-referrer"
-                className="w-full max-h-[72vh] object-contain"
+                className="w-full max-h-[75vh] object-contain"
               />
-            </div>
-
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 text-xs text-slate-300">
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setChibiVariant('cover')}
-                  className={`px-3 py-1.5 rounded-full font-semibold transition cursor-pointer ${
-                    chibiVariant === 'cover'
-                      ? 'bg-rose-600 text-white shadow-xs'
-                      : 'bg-slate-800 text-slate-300 hover:text-white'
-                  }`}
-                >
-                  Toàn Cảnh 16:9
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setChibiVariant('portrait')}
-                  className={`px-3 py-1.5 rounded-full font-semibold transition cursor-pointer ${
-                    chibiVariant === 'portrait'
-                      ? 'bg-rose-600 text-white shadow-xs'
-                      : 'bg-slate-800 text-slate-300 hover:text-white'
-                  }`}
-                >
-                  Chân Dung 4:3
-                </button>
-              </div>
-              <span className="text-emerald-400 font-semibold">
-                ✨ SoundQuest 44 — Học phát âm miễn phí 100% cùng Cô Phượng Chick
-              </span>
             </div>
           </div>
         </div>
