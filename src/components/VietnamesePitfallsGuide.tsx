@@ -185,7 +185,7 @@ export const VietnamesePitfallsGuide: React.FC<VietnamesePitfallsGuideProps> = (
               <div className="bg-emerald-50/70 border border-emerald-200/80 p-3 rounded-lg text-emerald-950">
                 <strong className="block font-bold text-emerald-900 mb-1 flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  {lang === 'vi' ? 'Cách sửa dứt điểm:' : 'Permanent fix:'}
+                  {lang === 'vi' ? 'Cách luyện sửa lỗi:' : 'How to fix:'}
                 </strong>
                 <p className="leading-relaxed">{trap.fix[lang]}</p>
               </div>

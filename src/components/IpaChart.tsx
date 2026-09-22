@@ -27,10 +27,12 @@ export const IpaChart: React.FC<IpaChartProps> = ({
   const diphthongs = vowels.filter((p) => p.subCategory === 'diphthong');
   const consonants = ALL_PHONEMES.filter((p) => p.category === 'consonant');
 
+  const highRiskCount = ALL_PHONEMES.filter((p) => p.vietnamesePitfalls?.isHighRisk).length;
+
   const filteredPhonemes = ALL_PHONEMES.filter((p) => {
     if (filterCategory === 'vowel' && p.category !== 'vowel') return false;
     if (filterCategory === 'consonant' && p.category !== 'consonant') return false;
-    if (filterCategory === 'pitfalls' && !p.vietnamesePitfalls) return false;
+    if (filterCategory === 'pitfalls' && !p.vietnamesePitfalls?.isHighRisk) return false;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       const matchSymbol = p.symbol.toLowerCase().includes(q);
@@ -50,7 +52,7 @@ export const IpaChart: React.FC<IpaChartProps> = ({
   const renderPhonemeTile = (p: PhonemeData) => {
     const isSelected = p.id === selectedPhonemeId;
     const isCompleted = completedPhonemes.includes(p.id);
-    const hasPitfall = !!p.vietnamesePitfalls;
+    const hasPitfall = p.vietnamesePitfalls?.isHighRisk === true;
 
     return (
       <button
@@ -118,7 +120,7 @@ export const IpaChart: React.FC<IpaChartProps> = ({
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-base sm:text-lg font-black text-slate-800 tracking-tight flex items-center gap-2">
-            <span>{lang === 'vi' ? 'Bảng 44 Âm Vị Tiếng Anh Chuẩn (British RP Chart)' : '44 British English Phonemes Chart'}</span>
+            <span>{lang === 'vi' ? 'Bảng 44 Âm Vị Tiếng Anh (Chuẩn Nền British RP & Đối Chiếu General American)' : '44 English Phonemes (British RP Base & GA Contrast)'}</span>
             <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-sky-100 text-sky-800">
               {completedPhonemes.length}/44 {lang === 'vi' ? 'đã học' : 'done'}
             </span>
@@ -173,7 +175,7 @@ export const IpaChart: React.FC<IpaChartProps> = ({
             }`}
           >
             <AlertCircle className="w-3 h-3" />
-            <span>{lang === 'vi' ? 'Bẫy âm người Việt' : 'VN Pitfalls'}</span>
+            <span>{lang === 'vi' ? `Bẫy âm người Việt (${highRiskCount})` : `VN Pitfalls (${highRiskCount})`}</span>
           </button>
         </div>
       </div>

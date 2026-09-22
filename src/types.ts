@@ -91,6 +91,7 @@ export interface VietnamesePitfall {
   commonMistake: BilingualText;
   howToFix: BilingualText;
   finalConsonantAlert?: boolean;
+  isHighRisk?: boolean;
 }
 
 export interface PhonemeData {

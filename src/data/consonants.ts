@@ -57,6 +57,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Polly', lineB: 'Here is the paper and a purple pen.', lineB_vi: 'Đây là giấy và một chiếc bút màu tím.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Dropping final /p/ in words like "cup" or "stop", or not aspirating at word start.',
         vi: 'Bỏ quên âm cuối /p/ trong các từ như "cup", "stop", hoặc đầu từ không bật hơi.'
@@ -201,6 +202,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Peter', lineB: 'Yes, we talked about the treatment.', lineB_vi: 'Rồi, chúng tôi đã trao đổi về phác đồ điều trị.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'The #1 error for Vietnamese learners: dropping final /t/ ("cat" becomes "ca", "meet" becomes "mee").',
         vi: 'Lỗi phổ biến số 1 của người Việt: nuốt chửng âm cuối /t/ (đọc "cat" thành "ca", "meet" thành "mee").'
@@ -269,6 +271,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Diane', lineB: 'Yes, I found it inside the desk drawer.', lineB_vi: 'Rồi, tôi tìm thấy nó bên trong ngăn kéo bàn làm việc.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Dropping final /d/ (saying "red" as "re", "need" as "nee") or confusing with Vietnamese "đ".',
         vi: 'Bỏ quên âm cuối /d/ (đọc "red" thành "re", "need" thành "nee") hoặc phát âm đầu từ như "đ" tiếng Việt quá nặng.'
@@ -541,6 +544,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Vincent', lineB: 'Yes, we live very close to that lovely valley.', lineB_vi: 'Rồi, chúng tôi sống rất gần thung lũng đáng yêu đó.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Pronouncing /v/ like /w/ or /b/, and dropping final /v/ in "live", "have", "leave".',
         vi: 'Đọc nhầm /v/ thành /w/ hoặc /b/, và hay nuốt âm cuối /v/ trong "live", "have", "leave".'
@@ -617,6 +621,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Beth', lineB: 'I thank you for asking, that is healthy!', lineB_vi: 'Cảm ơn bạn đã hỏi, như thế rất tốt cho sức khỏe!'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Major obstacle for Vietnamese speakers: substituting /t/, /s/, or /f/ ("think" -> "tink" / "sink").',
         vi: 'Trở ngại lớn nhất của người Việt: thay thế bằng /t/, /s/ hoặc /f/ (đọc "think" thành "thinh" hoặc "xinh").'
@@ -685,6 +690,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Heather', lineB: 'Yes, they bought this one together.', lineB_vi: 'Đúng rồi, họ đã cùng nhau mua chiếc này.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Substituting /d/ or /z/ (saying "dis" instead of "this", "muder" instead of "mother").',
         vi: 'Đọc thành "d" hoặc "z" tiếng Việt (nói "đít" thay vì "this", "mơ-đờ" thay vì "mother").'
@@ -753,6 +759,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Sally', lineB: 'Yes, several buses stop there every hour.', lineB_vi: 'Có chứ, vài chiếc xe buýt dừng ở đó mỗi giờ.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Dropping final /s/ (plural "books" -> "book", 3rd person "he likes" -> "he like").',
         vi: 'Bỏ quên âm xì đuôi /s/ (số nhiều "books" thành "book", động từ "he likes" thành "he like").'
@@ -821,6 +828,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Liz', lineB: 'Yes, because the animals enjoy the breeze.', lineB_vi: 'Có, vì các loài động vật rất thích làn gió mát.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Pronouncing final /z/ as voiceless /s/ or dropping it altogether ("plays" -> "play").',
         vi: 'Đọc âm cuối /z/ thành /s/ vô thanh hoặc nuốt luôn âm ("plays" thành "play").'
@@ -889,6 +897,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Sean', lineB: 'Push it gently, I wish to see inside.', lineB_vi: 'Hãy đẩy nhẹ thôi, tôi ước được nhìn vào bên trong.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Flattening /ʃ/ into /s/ (saying "she" like "see", "English" like "Eng-lis").',
         vi: 'Bè môi đọc /ʃ/ thành /s/ (đọc "she" thành "si", "English" thành "ing-lít").'
@@ -957,6 +966,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'George', lineB: 'Yes, it gives me great pleasure to wear it.', lineB_vi: 'Rồi, tôi rất vui khi được mặc nó.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Pronouncing as /dʒ/ (adding an unwanted stop "d") or /z/.',
         vi: 'Đọc chèn thêm âm "d" thành /dʒ/ hoặc biến thành /z/.'
@@ -1099,6 +1109,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Chelsea', lineB: 'A championship football match with rich action.', lineB_vi: 'Một trận bóng đá giải vô địch đầy kịch tính.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Dropping final /tʃ/ in words like "match", "watch", "church" (saying "ma", "wo").',
         vi: 'Bỏ quên âm đuôi /tʃ/ trong "match", "watch", "church" (đọc thành "mát", "oát").'
@@ -1167,6 +1178,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Jill', lineB: 'Yes, I hope to join the project in July.', lineB_vi: 'Rồi, tôi hy vọng sẽ tham gia dự án vào tháng Bảy.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Pronouncing as Vietnamese "d" (z sound) and dropping final /dʒ/ in "page", "large", "bridge".',
         vi: 'Đọc thành âm "d" / "gi" tiếng Việt và nuốt âm cuối /dʒ/ trong "page", "large", "bridge".'
@@ -1438,6 +1450,7 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Lily', lineB: 'Yes, I will call him at twelve o’clock.', lineB_vi: 'Vâng, tôi sẽ gọi cho anh ấy lúc mười hai giờ.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Dropping "dark L" at the end of words (saying "call" like "co", "feel" like "fee") or confusing with /r/ or /n/.',
         vi: 'Bỏ quên âm L cuối từ "dark L" (đọc "call" thành "co", "feel" thành "phi") hoặc nhầm với /r/ hay /n/.'
@@ -1506,13 +1519,14 @@ export const CONSONANTS_DATA: PhonemeData[] = [
       speakerB: 'Ron', lineB: 'Right away, I am reading the first paragraph.', lineB_vi: 'Ngay bây giờ, tôi đang đọc đoạn đầu tiên.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
-        en: 'Rolling or flapping the tongue like Vietnamese "r", or adding rhotic "r" after vowels in words like "car" or "water" in British RP.',
-        vi: 'Rung lưỡi rền rĩ như "r" tiếng Việt, hoặc uốn lưỡi âm "r" sau nguyên âm trong "car", "water" (tiếng Anh-Anh không phát âm "r" ở cuối).'
+        en: 'Rolling or flapping the tongue like Vietnamese "r" (trill), instead of the English postalveolar approximant.',
+        vi: 'Rung đầu lưỡi như âm "r" tiếng Việt, hoặc hiểu lầm việc cuộn lưỡi dẫn đến đánh rung vòm họng.'
       },
       howToFix: {
-        en: 'Keep your tongue suspended in the middle of your mouth without touching anything, and keep lips softly rounded.',
-        vi: 'Giữ đầu lưỡi lơ lửng ở giữa miệng không chạm vào bất cứ đâu, khum nhẹ môi.'
+        en: 'For British RP: keep tongue tip suspended in the middle of mouth without touching anywhere. For American /r/: tongue tip curls up or bunches back towards palate but NEVER touches the roof of mouth.',
+        vi: 'Với âm /r/ kiểu Mỹ: đầu lưỡi cong hoặc co về sau nhưng không chạm vòm miệng (không rung đầu lưỡi). Với chuẩn RP: đầu lưỡi lơ lửng, chỉ phát âm khi theo sau là nguyên âm.'
       }
     }
   },

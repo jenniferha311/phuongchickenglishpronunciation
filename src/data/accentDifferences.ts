@@ -30,30 +30,30 @@ export const ACCENT_RULES: AccentRule[] = [
     id: 'rhoticity',
     title: {
       en: 'Rhoticity: Pronouncing the "R" sound',
-      vi: 'Âm /r/ cuộn lưỡi (Rhotic vs Non-rhotic)'
+      vi: 'Âm /r/ kiểu Mỹ: đầu lưỡi cong hoặc co về sau (Rhotic vs Non-rhotic)'
     },
     badge: 'Quy tắc vàng #1',
     summary: {
-      en: 'American English is rhotic (pronounces /r/ everywhere), while British RP is non-rhotic (only pronounces /r/ before vowels).',
-      vi: 'Tiếng Anh Mỹ (US) luôn cuộn lưỡi phát âm /r/ ở mọi vị trí (cuối từ, trước phụ âm). Tiếng Anh Anh (UK) chỉ đọc /r/ khi đứng trước nguyên âm.'
+      en: 'American English (GA) is rhotic (pronounces /r/ everywhere), while British RP is non-rhotic (only pronounces /r/ before vowels).',
+      vi: 'Tiếng Anh Mỹ (General American) là phương ngữ rhotic — phát âm âm /r/ ở mọi vị trí (đầu lưỡi cong hoặc co về sau nhưng không chạm vòm miệng, không rung). Tiếng Anh Anh (British RP) là non-rhotic — chỉ đọc /r/ khi theo sau là nguyên âm.'
     },
     ukRule: {
       en: 'Silent "r" in final position or before consonants. Vowels are lengthened instead.',
       vi: 'Âm "r" câm ở cuối từ hoặc trước phụ âm; nguyên âm đứng trước được kéo dài trường độ.'
     },
     usRule: {
-      en: 'Curled tongue backward (retroflex or bunched) to produce audible R-coloring (/ɚ/, /ɝ/, /ɑːr/).',
-      vi: 'Đầu lưỡi cong lên và thụt sâu về sau để tạo độ rung uốn lưỡi đặc trưng cho nguyên âm.'
+      en: 'Tongue tip curls up or bunches back towards the palate without touching, producing audible rhoticity (/ɚ/, /ɝ/, /ɑr/).',
+      vi: 'Âm /r/ kiểu Mỹ: đầu lưỡi cong hoặc co về sau nhưng không chạm vòm miệng; tuyệt đối không rung đầu lưỡi như tiếng Việt.'
     },
     examples: [
       {
         word: 'car',
         ukIpa: '/kɑː/',
-        usIpa: '/kɑːr/',
+        usIpa: '/kɑr/',
         meaning_vi: 'chiếc xe hơi',
         explanation: {
-          en: 'UK drops the final /r/; US pronounces a strong rhotic /r/.',
-          vi: 'UK ngân dài âm /ɑː/ không cuộn lưỡi; US cuộn lưỡi phát âm /r/ rõ ràng.'
+          en: 'UK drops the final /r/; US pronounces a rhotic GA /kɑr/.',
+          vi: 'UK ngân dài âm /ɑː/ không phát âm r; US phát âm /r/ kiểu Mỹ (đầu lưỡi cong/co về sau không chạm vòm miệng).'
         }
       },
       {
@@ -63,27 +63,27 @@ export const ACCENT_RULES: AccentRule[] = [
         meaning_vi: 'nước',
         explanation: {
           en: 'UK ends in pure schwa /ə/; US ends in rhotic schwa /ər/.',
-          vi: 'UK kết thúc bằng âm ơ nhẹ /ə/; US kết thúc bằng âm ơ cuộn lưỡi /ər/.'
+          vi: 'UK kết thúc bằng âm ơ nhẹ /ə/; US kết thúc bằng âm ơ với âm /r/ kiểu Mỹ /ər/.'
         }
       },
       {
         word: 'bird',
         ukIpa: '/bɜːd/',
-        usIpa: '/bɜːrd/',
+        usIpa: '/bɜrd/',
         meaning_vi: 'con chim',
         explanation: {
           en: 'UK vowel /ɜː/ is held steady; US vowel /ɝ/ is r-colored.',
-          vi: 'UK đọc /ɜː/ phẳng lưỡi; US cuộn lưỡi sâu trong họng /ɝ/.'
+          vi: 'UK đọc /ɜː/ phẳng lưỡi; US phát âm nguyên âm kết hợp /r/ kiểu Mỹ /ɝ/.'
         }
       },
       {
         word: 'hard',
         ukIpa: '/hɑːd/',
-        usIpa: '/hɑːrd/',
+        usIpa: '/hɑrd/',
         meaning_vi: 'chăm chỉ, khó',
         explanation: {
           en: 'UK drops /r/ before /d/; US keeps strong /r/.',
-          vi: 'UK lướt qua âm r; US giữ trọn vẹn âm cuộn lưỡi.'
+          vi: 'UK lướt qua âm r; US giữ âm /r/ kiểu Mỹ rõ ràng (không rung đầu lưỡi).'
         }
       }
     ]
@@ -141,11 +141,11 @@ export const ACCENT_RULES: AccentRule[] = [
       {
         word: 'party',
         ukIpa: '/ˈpɑːti/',
-        usIpa: '/ˈpɑːrt̬i/ (pa-r-đì)',
+        usIpa: '/ˈpɑrt̬i/ (pa-r-đì)',
         meaning_vi: 'bữa tiệc',
         explanation: {
           en: 'UK: no r, crisp t; US: rhotic r + flap t.',
-          vi: 'UK không r + t bật; US vừa cuộn r vừa vỗ âm t.'
+          vi: 'UK không r + t bật sắc nét; US kết hợp âm /r/ kiểu Mỹ và âm t vỗ.'
         }
       }
     ]
@@ -350,20 +350,20 @@ export const ACCENT_RULES: AccentRule[] = [
     id: 'centring_diphthongs',
     title: {
       en: 'Centring Diphthongs vs R-Colored Vowels',
-      vi: 'Nguyên âm đôi lướt về Schwa vs Nguyên âm cuộn R'
+      vi: 'Nguyên âm đôi lướt về Schwa vs Nguyên âm kết hợp /r/ kiểu Mỹ'
     },
     badge: 'Đặc trưng vần #6',
     summary: {
-      en: 'British RP has centring diphthongs gliding towards schwa (/ɪə/, /eə/, /ʊə/). American English replaces them with vowel + rhotic R (/ɪr/, /er/, /ʊr/).',
-      vi: 'Người Anh lướt từ nguyên âm chính về âm ơ schwa (/ɪə/, /eə/, /ʊə/). Người Mỹ không dùng âm schwa mà cuộn thẳng lưỡi thành nguyên âm + r (/ɪr/, /er/, /ʊr/).'
+      en: 'In centring diphthongs ending in an R-spelling (/ɪə/, /eə/, /ʊə/), British RP glides to a weak schwa. In these specific rhotic contexts, American English replaces the schwa glide with a rhotic vowel + /r/ (/ɪr/, /er/, /ʊr/).',
+      vi: 'Trong các nguyên âm đôi lướt (centring diphthongs như /ɪə/, /eə/, /ʊə/), người Anh lướt về âm ơ schwa nhẹ. Riêng ở các nhóm âm vị rhotic này, người Mỹ không lướt về schwa mà chuyển thành nguyên âm kết hợp âm /r/ kiểu Mỹ (/ɪr/, /er/, /ʊr/).'
     },
     ukRule: {
-      en: 'Smooth glide ending in relaxed neutral schwa /ə/.',
-      vi: 'Lướt nhẹ nhàng từ âm trước về âm ơ trung tính /ə/.'
+      en: 'Smooth glide ending in relaxed neutral schwa /ə/ (non-rhotic).',
+      vi: 'Lướt nhẹ nhàng từ âm trước về âm ơ trung tính /ə/ (không phát âm r).'
     },
     usRule: {
-      en: 'Immediate curling back of tongue into rhotic /r/.',
-      vi: 'Cuộn lưỡi ngay lập tức tạo thành âm r dày và vang.'
+      en: 'Replaces the schwa glide with an approximant /r/ (tongue curls up or bunches back without touching).',
+      vi: 'Thay thế âm lướt schwa bằng âm /r/ kiểu Mỹ: đầu lưỡi cong hoặc co về sau nhưng không chạm vòm miệng.'
     },
     examples: [
       {
@@ -372,8 +372,8 @@ export const ACCENT_RULES: AccentRule[] = [
         usIpa: '/nɪr/',
         meaning_vi: 'gần gũi',
         explanation: {
-          en: 'UK: /nɪə/ (ni-ơ); US: /nɪr/ (ni-r).',
-          vi: 'UK lướt về schwa; US kết thúc bằng âm r cuộn.'
+          en: 'UK: /nɪə/ (glides to schwa); US: /nɪr/ (rhotic R without schwa glide).',
+          vi: 'UK lướt về schwa /ə/; US chuyển thành nguyên âm kết hợp /r/ kiểu Mỹ.'
         }
       },
       {
@@ -382,8 +382,8 @@ export const ACCENT_RULES: AccentRule[] = [
         usIpa: '/her/',
         meaning_vi: 'mái tóc',
         explanation: {
-          en: 'UK: /heə/ (he-ơ); US: /her/ (he-r).',
-          vi: 'UK lướt về schwa; US kết thúc bằng âm r cuộn.'
+          en: 'UK: /heə/ (glides to schwa); US: /her/ (rhotic R without schwa glide).',
+          vi: 'UK lướt về schwa /ə/; US chuyển thành nguyên âm kết hợp /r/ kiểu Mỹ.'
         }
       },
       {
@@ -392,8 +392,8 @@ export const ACCENT_RULES: AccentRule[] = [
         usIpa: '/tʊr/',
         meaning_vi: 'chuyến du lịch',
         explanation: {
-          en: 'UK: /tʊə/ (tu-ơ); US: /tʊr/ (tu-r).',
-          vi: 'UK lướt về schwa; US kết thúc bằng âm r cuộn.'
+          en: 'UK: /tʊə/ (glides to schwa); US: /tʊr/ (rhotic R without schwa glide).',
+          vi: 'UK lướt về schwa /ə/; US chuyển thành nguyên âm kết hợp /r/ kiểu Mỹ.'
         }
       }
     ]
@@ -499,11 +499,11 @@ export const POPULAR_CONTRAST_WORDS: WordAccentContrast[] = [
     word: 'car',
     meaning_vi: 'xe hơi',
     ukIpa: '/kɑː/',
-    usIpa: '/kɑːr/',
+    usIpa: '/kɑr/',
     category: 'rhoticity',
     tip: {
-      en: 'UK: silent r. US: strong curled r.',
-      vi: 'UK: r câm ngân dài. US: cuộn lưỡi phát âm r rõ nét.'
+      en: 'UK: silent r with lengthened /ɑː/. US: GA rhotic /kɑr/.',
+      vi: 'UK: r câm, ngân dài /ɑː/. US: âm /r/ kiểu Mỹ: đầu lưỡi cong/co về sau không chạm vòm miệng.'
     }
   },
   {
@@ -636,15 +636,15 @@ export function getPhonemeAccentDifference(phonemeSymbol: string): {
     return {
       hasDifference: true,
       ukIpa: '/ɑː/',
-      usIpa: '/æ/ in BATH words, /ɑːr/ before R',
+      usIpa: '/æ/ in BATH words, /ɑr/ before R',
       explanation: {
-        en: 'UK uses deep /ɑː/ in words like "bath", "dance", "ask". In US English, these words take flat /æ/. Also, before R, US uses rhotic /ɑːr/.',
-        vi: 'Người Anh đọc /ɑː/ trầm sâu trong các từ như "bath", "dance", "ask", "fast"; người Mỹ đổi toàn bộ sang âm e bẹt /æ/ (/bæθ/, /dæns/, /æsk/).'
+        en: 'UK uses deep /ɑː/ in words like "bath", "dance", "ask". In US English, these words take flat /æ/. Also, before R, GA uses rhotic /ɑr/.',
+        vi: 'Người Anh đọc /ɑː/ trầm sâu trong các từ như "bath", "dance", "ask", "fast"; người Mỹ đổi sang âm e bẹt /æ/ (/bæθ/, /dæns/, /æsk/), và trước R chuyển thành âm /ɑr/.'
       },
       contrastExamples: [
         { word: 'dance', ukIpa: '/dɑːns/', usIpa: '/dæns/', note: 'UK: A trầm; US: e bẹt' },
         { word: 'bath', ukIpa: '/bɑːθ/', usIpa: '/bæθ/', note: 'UK: A trầm; US: e bẹt' },
-        { word: 'car', ukIpa: '/kɑː/', usIpa: '/kɑːr/', note: 'UK: r câm; US: cuộn lưỡi r' }
+        { word: 'car', ukIpa: '/kɑː/', usIpa: '/kɑr/', note: 'UK: r câm; US: âm /r/ kiểu Mỹ' }
       ]
     };
   }
@@ -655,13 +655,13 @@ export function getPhonemeAccentDifference(phonemeSymbol: string): {
       ukIpa: 'Non-rhotic (only before vowels)',
       usIpa: 'Rhotic (pronounced everywhere)',
       explanation: {
-        en: 'UK only pronounces /r/ before vowels (linking R). US pronounces /r/ everywhere including end of words and before consonants.',
-        vi: 'Người Anh chỉ phát âm /r/ khi phía sau có nguyên âm. Người Mỹ luôn luôn cuộn lưỡi phát âm /r/ dù ở cuối từ hay trước phụ âm.'
+        en: 'UK only pronounces /r/ before vowels (linking R). US pronounces /r/ in all positions with tongue curled up or bunched back without touching palate.',
+        vi: 'Người Anh chỉ phát âm /r/ khi phía sau có nguyên âm. Người Mỹ phát âm âm /r/ ở mọi vị trí (đầu lưỡi cong hoặc co về sau nhưng không chạm vòm miệng, không rung).'
       },
       contrastExamples: [
-        { word: 'car', ukIpa: '/kɑː/', usIpa: '/kɑːr/', note: 'UK r câm; US cuộn r' },
-        { word: 'park', ukIpa: '/pɑːk/', usIpa: '/pɑːrk/', note: 'UK r câm; US cuộn r' },
-        { word: 'here', ukIpa: '/hɪə/', usIpa: '/hɪr/', note: 'UK trượt ơ; US cuộn r' }
+        { word: 'car', ukIpa: '/kɑː/', usIpa: '/kɑr/', note: 'UK: r câm; US: /r/ kiểu Mỹ' },
+        { word: 'park', ukIpa: '/pɑːk/', usIpa: '/pɑrk/', note: 'UK: r câm; US: /r/ kiểu Mỹ' },
+        { word: 'here', ukIpa: '/hɪə/', usIpa: '/hɪr/', note: 'UK: trượt ơ; US: /r/ kiểu Mỹ' }
       ]
     };
   }
@@ -723,14 +723,14 @@ export function getPhonemeAccentDifference(phonemeSymbol: string): {
       ukIpa: `/${phonemeSymbol}/ (glides to schwa)`,
       usIpa: phonemeSymbol === 'ɪə' ? '/ɪr/' : phonemeSymbol === 'eə' ? '/er/' : '/ʊr/',
       explanation: {
-        en: 'UK glides to a neutral schwa. US replaces this glide with a rhotic R sound.',
-        vi: 'UK lướt từ nguyên âm chính về âm ơ schwa. US đổi hoàn toàn thành nguyên âm kết hợp âm cuộn lưỡi /r/.'
+        en: 'In these centring diphthongs, UK glides to a neutral schwa. In US English, these words are pronounced as vowel + rhotic /r/.',
+        vi: 'Ở các nguyên âm đôi này, người Anh lướt về âm ơ schwa nhẹ (/ɪə/, /eə/, /ʊə/); người Mỹ ở nhóm âm vị này thay thế bằng nguyên âm kết hợp âm /r/ kiểu Mỹ.'
       },
       contrastExamples: [
         { word: phonemeSymbol === 'ɪə' ? 'hear' : phonemeSymbol === 'eə' ? 'care' : 'pure',
           ukIpa: phonemeSymbol === 'ɪə' ? '/hɪə/' : phonemeSymbol === 'eə' ? '/keə/' : '/pjʊə/',
           usIpa: phonemeSymbol === 'ɪə' ? '/hɪr/' : phonemeSymbol === 'eə' ? '/ker/' : '/pjʊr/',
-          note: 'UK lướt về ơ; US cuộn r'
+          note: 'UK: lướt về schwa; US: /r/ kiểu Mỹ'
         }
       ]
     };

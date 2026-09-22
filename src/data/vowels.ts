@@ -65,6 +65,7 @@ export const VOWELS_DATA: PhonemeData[] = [
       speakerB: 'Liam', lineB: 'Yes, please! That would be lovely.', lineB_vi: 'Vâng, làm ơn! Thật là tuyệt vời.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Pronouncing /iː/ too short like Vietnamese "i", confusing "sheet" and "shit" or "leave" and "live".',
         vi: 'Phát âm quá ngắn giống âm "i" tiếng Việt, dễ gây nhầm lẫn nguy hiểm giữa "sheet" và "shit", hay "leave" và "live".'
@@ -132,6 +133,7 @@ export const VOWELS_DATA: PhonemeData[] = [
       speakerB: 'Student', lineB: 'Yes, it is! Thank you so much.', lineB_vi: 'Vâng, đúng rồi! Cảm ơn thầy rất nhiều.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Making it too tense and sounding like long /iː/, or substituting Vietnamese "ê".',
         vi: 'Kéo quá dài thành /iː/ hoặc đọc thành âm "ê" tiếng Việt.'
@@ -266,6 +268,7 @@ export const VOWELS_DATA: PhonemeData[] = [
       speakerB: 'Sally', lineB: 'Thanks Dan! That is very kind of you.', lineB_vi: 'Cảm ơn Dan! Bạn thật tốt bụng.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Substituting Vietnamese "e" or "a", failing to lower the jaw enough.',
         vi: 'Đọc nửa vời thành "e" hoặc "a" tiếng Việt do ngại hạ cằm.'
@@ -400,6 +403,7 @@ export const VOWELS_DATA: PhonemeData[] = [
       speakerB: 'Barista', lineB: 'Yes, it is ready on the top counter.', lineB_vi: 'Vâng, đã sẵn sàng trên quầy phía trên rồi ạ.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Confusing with Vietnamese "o" (which is too closed) or American /ɑː/.',
         vi: 'Khép miệng quá nhỏ như âm "o" tiếng Việt hoặc đọc thành "a" theo giọng Mỹ.'
@@ -534,6 +538,7 @@ export const VOWELS_DATA: PhonemeData[] = [
       speakerB: 'Friend', lineB: 'I should look at the recipe book first.', lineB_vi: 'Tôi nên xem cuốn sách công thức trước đã.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Pronouncing like Vietnamese "u" (pursing lips too tightly and making it too long).',
         vi: 'Đọc thành âm "u" tiếng Việt (chúm môi quá chặt và kéo dài thành âm dài).'
@@ -601,6 +606,7 @@ export const VOWELS_DATA: PhonemeData[] = [
       speakerB: 'Luke', lineB: 'Cool fruit juice would be super, thank you!', lineB_vi: 'Nước hoa quả mát sẽ tuyệt lắm, cảm ơn bạn!'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Not rounding the lips enough or cutting the sound too short.',
         vi: 'Không chu môi đủ độ hoặc ngắt âm quá sớm.'
@@ -743,6 +749,7 @@ export const VOWELS_DATA: PhonemeData[] = [
       speakerB: 'Student', lineB: 'Yes, it was the first thing I heard today.', lineB_vi: 'Dạ rồi, đó là điều đầu tiên em nghe thấy hôm nay.'
     },
     vietnamesePitfalls: {
+      isHighRisk: true,
       commonMistake: {
         en: 'Curling the tongue back into American "r" (/ɝ/) or reading it too short like Vietnamese "ơ".',
         vi: 'Uốn lưỡi tạo âm "r" kiểu Mỹ hoặc đọc cộc lốc như âm "ơ" tiếng Việt.'

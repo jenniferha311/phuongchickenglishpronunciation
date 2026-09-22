@@ -36,19 +36,19 @@ export const AccentComparisonModule: React.FC<AccentComparisonModuleProps> = ({
         <div className="relative z-10 max-w-3xl space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-amber-300 text-xs font-bold uppercase tracking-wider backdrop-blur-xs">
             <ArrowRightLeft className="w-3.5 h-3.5 text-amber-300" />
-            <span>{lang === 'vi' ? 'Song hành 2 chuẩn Quốc tế' : 'Dual Accent System'}</span>
+            <span>{lang === 'vi' ? 'Lấy British RP làm chuẩn nền • Đối chiếu General American' : 'British RP Base & GA Contrast'}</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             {lang === 'vi'
-              ? 'So Sánh & Chinh Phục: Anh - Anh (RP) 🇬🇧 vs Anh - Mỹ (GA) 🇺🇸'
+              ? 'Đối Chiếu Ngữ Âm: British RP 🇬🇧 vs General American 🇺🇸'
               : 'British English (RP) 🇬🇧 vs American English (GA) 🇺🇸'}
           </h2>
 
           <p className="text-sm text-slate-300 leading-relaxed">
             {lang === 'vi'
-              ? 'Hiểu rõ 7 quy tắc khác biệt cốt lõi: âm R cuộn lưỡi (Rhoticity), âm T vỗ (Flap T), biến âm Bath (/ɑː/ vs /æ/), âm Lot (/ɒ/ vs /ɑː/) và rụng âm /j/ (Yod-dropping). Bấm để nghe trực tiếp từng chuẩn giọng!'
-              : 'Explore the 7 core phonetic contrasts: Rhoticity, Flap T, BATH vowels (/ɑː/ vs /æ/), LOT unrounding, and Yod-dropping. Click to listen to both native accents side-by-side!'}
+              ? 'Lấy British RP làm chuẩn nền, đồng thời đối chiếu General American qua 7 quy tắc khác biệt cốt lõi: âm /r/ kiểu Mỹ (Rhoticity), âm T vỗ (Flap T), biến âm BATH (/ɑː/ vs /æ/), âm LOT (/ɒ/ vs /ɑː/), nguyên âm đôi lướt và rụng âm /j/. Bấm để nghe trực tiếp từng chuẩn giọng!'
+              : 'Using British RP as the foundation while contrasting with General American (GA) across core phonetic rules: rhoticity, flap T, BATH vowels, LOT unrounding, centring glides, and yod-dropping. Click to listen to both accents!'}
           </p>
 
           {/* Quick Accent Selector */}

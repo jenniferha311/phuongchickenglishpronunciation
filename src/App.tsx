@@ -259,7 +259,7 @@ export default function App() {
 
               <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 {lang === 'vi'
-                  ? 'Học phát âm bài bản 44 âm quốc tế, sửa dứt điểm bẫy nuốt âm cuối của người Việt, và thực hành đọc câu / đoạn văn với AI chấm điểm tự động cùng nhận xét trực tiếp từ cô Phượng Chick HOÀN TOÀN MIỄN PHÍ'
+                  ? 'Học phát âm bài bản 44 âm quốc tế, luyện sửa lỗi bẫy nuốt âm cuối của người Việt, và thực hành đọc câu / đoạn văn với AI chấm điểm tự động cùng nhận xét trực tiếp từ cô Phượng Chick HOÀN TOÀN MIỄN PHÍ'
                   : 'Master 44 RP phonemes, overcome Vietnamese pronunciation traps, and practice reading sentences & paragraphs with instant AI scoring and guidance from Cô Phượng Chick 100% FREE.'}
               </p>
 

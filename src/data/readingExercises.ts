@@ -182,7 +182,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'The calm farmer parked his large car under the hot summer sun.',
     ipa: '/ðə kɑːm ˈfɑːmə pɑːkt hɪz lɑːdʒ kɑː ˈʌndə ðə hɒt ˈsʌmə sʌn/',
-    ipa_us: '/ðə kɑːm ˈfɑːrmər pɑːrkt hɪz lɑːrdʒ kɑːr ˈʌndər ðə hɑːt ˈsʌmər sʌn/',
+    ipa_us: '/ðə kɑm ˈfɑrmər pɑrkt hɪz lɑrdʒ kɑr ˈʌndər ðə hɑt ˈsʌmər sʌn/',
     targetPhonemes: ['ɑː', 'ʌ'],
     targetSoundsDescription: {
       en: 'Deep open back vowel /ɑː/ (calm, farmer, parked, large, car) vs short central-back /ʌ/ (under, summer, sun).',
@@ -353,7 +353,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'Charles enjoyed cheap cheese sandwiches with fresh orange juice near the huge village bridge.',
     ipa: '/tʃɑːlz ɪnˈdʒɔɪd tʃiːp tʃiːz ˈsænwɪtʃɪz wɪð freʃ ˈɒrɪndʒ dʒuːs nɪə ðə hjuːdʒ ˈvɪlɪdʒ brɪdʒ/',
-    ipa_us: '/tʃɑːrlz ɪnˈdʒɔɪd tʃiːp tʃiːz ˈsænwɪtʃɪz wɪð freʃ ˈɔːrɪndʒ dʒuːs nɪr ðə hjuːdʒ ˈvɪlɪdʒ brɪdʒ/',
+    ipa_us: '/tʃɑrlz ɪnˈdʒɔɪd tʃiːp tʃiːz ˈsænwɪtʃɪz wɪð freʃ ˈɔrɪndʒ dʒuːs nɪr ðə hjuːdʒ ˈvɪlɪdʒ brɪdʒ/',
     targetPhonemes: ['tʃ', 'dʒ'],
     targetSoundsDescription: {
       en: 'Palato-alveolar affricates: unvoiced /tʃ/ (Charles, cheap, cheese, sandwiches) vs voiced /dʒ/ (enjoyed, orange, juice, huge, village, bridge).',
@@ -467,7 +467,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'The charming young singer was singing strong songs on a sunny Monday morning.',
     ipa: '/ðə ˈtʃɑːmɪŋ jʌŋ ˈsɪŋə wəz ˈsɪŋɪŋ strɒŋ sɒŋz ɒn ə ˈsʌni ˈmʌndeɪ ˈmɔːnɪŋ/',
-    ipa_us: '/ðə ˈtʃɑːrmɪŋ jʌŋ ˈsɪŋər wəz ˈsɪŋɪŋ strɔːŋ sɔːŋz ɑːn ə ˈsʌni ˈmʌndeɪ ˈmɔːrnɪŋ/',
+    ipa_us: '/ðə ˈtʃɑrmɪŋ jʌŋ ˈsɪŋər wəz ˈsɪŋɪŋ strɔːŋ sɔːŋz ɑn ə ˈsʌni ˈmʌndeɪ ˈmɔrnɪŋ/',
     targetPhonemes: ['m', 'n', 'ŋ'],
     targetSoundsDescription: {
       en: 'Velar nasal /ŋ/ without pronouncing a hard /ɡ/: charming, young, singer, singing, strong, songs, morning.',
@@ -526,7 +526,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'It is a rather cold autumn morning in London. People with warm coats walk through the damp park towards the train station. A sweet smell of fresh coffee and hot bread drifts from the local bakery near the corner.',
     ipa: '/ɪt ɪz ə ˈrɑːðə kəʊld ˈɔːtəm ˈmɔːnɪŋ ɪn ˈlʌndən. ˈpiːpl wɪð wɔːm kəʊts wɔːk θruː ðə dæmp pɑːk təˈwɔːdz ðə treɪn ˈsteɪʃn. ə swiːt smel əv freʃ ˈkɒfi ənd hɒt bred drɪfts frəm ðə ˈləʊkl ˈbeɪkəri nɪə ðə ˈkɔːnə./',
-    ipa_us: '/ɪt ɪz ə ˈræðər koʊld ˈɔːtəm ˈmɔːrnɪŋ ɪn ˈlʌndən. ˈpiːpl wɪð wɔːrm koʊts wɔːk θruː ðə dæmp pɑːrk təˈwɔːrdz ðə treɪn ˈsteɪʃn. ə swiːt smel əv freʃ ˈkɑːfi ənd hɑːt bred drɪfts frəm ðə ˈloʊkl ˈbeɪkəri nɪr ðə ˈkɔːrnər./',
+    ipa_us: '/ɪt ɪz ə ˈræðər koʊld ˈɔtəm ˈmɔrnɪŋ ɪn ˈlʌndən. ˈpiːpl wɪð wɔrm koʊts wɔk θruː ðə dæmp pɑrk təˈwɔrdz ðə treɪn ˈsteɪʃn. ə swiːt smel əv freʃ ˈkɑfi ənd hɑt bred drɪfts frəm ðə ˈloʊkl ˈbeɪkəri nɪr ðə ˈkɔrnər./',
     targetPhonemes: ['ɔː', 'əʊ', 'θ', 't', 'k'],
     targetSoundsDescription: {
       en: 'British RP non-rhotic vowels (morning, park, corner), long /ɔː/ (autumn, warm, walk), and natural rhythmic pacing.',
@@ -583,7 +583,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'Good afternoon. Could I please book a return ticket to Cambridge for tomorrow morning? I would like to catch the eight-fifteen train if there are still seats available. Thank you very much for your kind help.',
     ipa: '/ɡʊd ˌɑːftəˈnuːn. kʊd aɪ pliːz bʊk ə rɪˈtɜːn ˈtɪkɪt tuː ˈkeɪmbrɪdʒ fə təˈmɒrəʊ ˈmɔːnɪŋ? aɪ wʊd laɪk tuː kætʃ ði eɪt ˌfɪfˈtiːn treɪn ɪf ðeər ɑː stɪl siːts əˈveɪləbl. θæŋk juː ˈveri mʌtʃ fə jɔː kaɪnd help./',
-    ipa_us: '/ɡʊd ˌæftərˈnuːn. kʊd aɪ pliːz bʊk ə rɪˈtɜːrn ˈtɪkɪt tuː ˈkeɪmbrɪdʒ fər təˈmɑːroʊ ˈmɔːrnɪŋ? aɪ wʊd laɪk tuː kætʃ ði eɪt ˌfɪfˈtiːn treɪn ɪf ðer ɑːr stɪl siːts əˈveɪləbl. θæŋk juː ˈveri mʌtʃ fər jɔːr kaɪnd help./',
+    ipa_us: '/ɡʊd ˌæftərˈnuːn. kʊd aɪ pliːz bʊk ə rɪˈtɜrn ˈtɪkɪt tuː ˈkeɪmbrɪdʒ fər təˈmɑroʊ ˈmɔrnɪŋ? aɪ wʊd laɪk tuː kætʃ ði eɪt ˌfɪfˈtiːn treɪn ɪf ðer ɑr stɪl siːts əˈveɪləbl. θæŋk juː ˈveri mʌtʃ fər jɔr kaɪnd help./',
     targetPhonemes: ['ʊ', 'uː', 't', 'dʒ', 'θ'],
     targetSoundsDescription: {
       en: 'Vowel contrast between short /ʊ/ (good, could, book, would) and long /uː/ (afternoon), plus polite British rising and falling pitch.',
@@ -611,7 +611,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'Good morning! Could I please have a flat white coffee with oat milk and a warm toasted croissant? If possible, I would also like a bottle of chilled sparkling water. Keep the change, thank you very much!',
     ipa: '/ɡʊd ˈmɔːnɪŋ! kʊd aɪ pliːz hæv ə flæt waɪt ˈkɒfi wɪð əʊt mɪlk ənd ə wɔːm ˈtəʊstɪd ˈkwæsɒŋ? ɪf ˈpɒsəbl, aɪ wʊd ˈɔːlsəʊ laɪk ə ˈbɒtl əv tʃɪld ˈspɑːklɪŋ ˈwɔːtə. kiːp ðə tʃeɪndʒ, θæŋk juː ˈveri mʌtʃ!/',
-    ipa_us: '/ɡʊd ˈmɔːrnɪŋ! kʊd aɪ pliːz hæv ə flæt waɪt ˈkɑːfi wɪð oʊt mɪlk ənd ə wɔːrm ˈtoʊstɪd krwɑːˈsɑːnt? ɪf ˈpɑːsəbl, aɪ wʊd ˈɔːlsoʊ laɪk ə ˈbɑːtl əv tʃɪld ˈspɑːrklɪŋ ˈwɔːtər. kiːp ðə tʃeɪndʒ, θæŋk juː ˈveri mʌtʃ!/',
+    ipa_us: '/ɡʊd ˈmɔrnɪŋ! kʊd aɪ pliːz hæv ə flæt waɪt ˈkɑfi wɪð oʊt mɪlk ənd ə wɔrm ˈtoʊstɪd krwɑːˈsɑnt? ɪf ˈpɑsəbl, aɪ wʊd ˈɔlsoʊ laɪk ə ˈbɑtl əv tʃɪld ˈspɑrklɪŋ ˈwɔtər. kiːp ðə tʃeɪndʒ, θæŋk juː ˈveri mʌtʃ!/',
     targetPhonemes: ['aɪ', 'əʊ', 'ɒ', 'tʃ', 'dʒ'],
     targetSoundsDescription: {
       en: 'Linking words smoothly (flat white, keep the change) and distinguishing short /ɒ/ (coffee, bottle) from long /ɔː/ (morning, warm, water).',
@@ -639,7 +639,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'Thank you all for joining our quarterly strategy briefing. Over the past six months, our international team has achieved outstanding client satisfaction across twelve European markets. Today, let us examine our strategic milestones and operational priorities for the coming year.',
     ipa: '/θæŋk juː ɔːl fə ˈdʒɔɪnɪŋ ˈaʊə ˈkwɔːtəli ˈstrætədʒi ˈbriːfɪŋ. ˈəʊvə ðə pɑːst sɪks mʌnθs, ˈaʊər ˌɪntəˈnæʃnəl tiːm həz əˈtʃiːvd aʊtˈstændɪŋ ˈklaɪənt ˌsætɪsˈfækʃn əˈkrɒs twelv ˌjʊərəˈpiːən ˈmɑːkɪts. təˈdeɪ, let ʌs ɪɡˈzæmɪn ˈaʊə strəˈtiːdʒɪk ˈmaɪlstəʊnz ənd ˌɒpəˈreɪʃənl praɪˈɒrətiz fə ðə ˈkʌmɪŋ jɪə./',
-    ipa_us: '/θæŋk juː ɔːl fər ˈdʒɔɪnɪŋ ˈaʊər ˈkwɔːrtərli ˈstrætədʒi ˈbriːfɪŋ. ˈoʊvər ðə pæst sɪks mʌnθs, ˈaʊər ˌɪntərˈnæʃnəl tiːm həz əˈtʃiːvd aʊtˈstændɪŋ ˈklaɪənt ˌsætɪsˈfækʃn əˈkrɔːs twelv ˌjʊrəˈpiːən ˈmɑːrkɪts. təˈdeɪ, let ʌs ɪɡˈzæmɪn ˈaʊər strəˈtiːdʒɪk ˈmaɪlstoʊnz ənd ˌɑːpəˈreɪʃənl praɪˈɔːrətiz fər ðə ˈkʌmɪŋ jɪr./',
+    ipa_us: '/θæŋk juː ɔːl fər ˈdʒɔɪnɪŋ ˈaʊər ˈkwɔrtərli ˈstrætədʒi ˈbriːfɪŋ. ˈoʊvər ðə pæst sɪks mʌnθs, ˈaʊər ˌɪntərˈnæʃnəl tiːm həz əˈtʃiːvd aʊtˈstændɪŋ ˈklaɪənt ˌsætɪsˈfækʃn əˈkrɔːs twelv ˌjʊrəˈpiːən ˈmɑrkɪts. təˈdeɪ, let ʌs ɪɡˈzæmɪn ˈaʊər strəˈtiːdʒɪk ˈmaɪlstoʊnz ənd ˌɑpəˈreɪʃənl praɪˈɔrətiz fər ðə ˈkʌmɪŋ jɪr./',
     targetPhonemes: ['θ', 'dʒ', 'tʃ', 'ʃ', 'ts'],
     targetSoundsDescription: {
       en: 'Professional stress patterns, complex Latin-root syllables (satisfaction, operational, strategic), and clear word-final clusters (months, markets, milestones).',
@@ -693,7 +693,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'Yesterday afternoon, Claire wandered through the ancient galleries of the British Museum. She admired the magnificent golden artifacts, sculpted marble friezes, and illuminated manuscripts created centuries ago. Soft daylight filtered through the glass dome of the Great Court.',
     ipa: '/ˈjestədeɪ ˌɑːftəˈnuːn, kleə ˈwɒndəd θruː ði ˈeɪnʃənt ˈɡæləriz əv ðə ˈbrɪtɪʃ mjuˈziːəm. ʃiː ədˈmaɪəd ðə mæɡˈnɪfɪsnt ˈɡəʊldən ˈɑːtɪfækts, ˈskʌlptɪd ˈmɑːbl ˈfriːzɪz, ənd ɪˈluːmɪneɪtɪd ˈmænjuskrɪpts kriˈeɪtɪd ˈsentʃəriz əˈɡəʊ. sɒft ˈdeɪlaɪt ˈfɪltəd θruː ðə ɡlɑːs dəʊm əv ðə ɡreɪt kɔːt./',
-    ipa_us: '/ˈjestərdeɪ ˌæftərˈnuːn, kler ˈwɑːndərd θruː ði ˈeɪnʃənt ˈɡæləriz əv ðə ˈbrɪtɪʃ mjuˈziːəm. ʃiː ədˈmaɪərd ðə mæɡˈnɪfɪsnt ˈɡoʊldən ˈɑːrtɪfækts, ˈskʌlptɪd ˈmɑːrbl ˈfriːzɪz, ənd ɪˈluːmɪneɪtɪd ˈmænjuskrɪpts kriˈeɪtɪd ˈsentʃəriz əˈɡoʊ. sɔːft ˈdeɪlaɪt ˈfɪltərd θruː ðə ɡlæs doʊm əv ðə ɡreɪt kɔːrt./',
+    ipa_us: '/ˈjestərdeɪ ˌæftərˈnuːn, kler ˈwɑndərd θruː ði ˈeɪnʃənt ˈɡæləriz əv ðə ˈbrɪtɪʃ mjuˈziːəm. ʃiː ədˈmaɪərd ðə mæɡˈnɪfɪsnt ˈɡoʊldən ˈɑrtɪfækts, ˈskʌlptɪd ˈmɑrbl ˈfriːzɪz, ənd ɪˈluːmɪneɪtɪd ˈmænjuskrɪpts kriˈeɪtɪd ˈsentʃəriz əˈɡoʊ. sɔːft ˈdeɪlaɪt ˈfɪltərd θruː ðə ɡlæs doʊm əv ðə ɡreɪt kɔrt./',
     targetPhonemes: ['eə', 'ʃ', 'tʃ', 'ɑː', 'd'],
     targetSoundsDescription: {
       en: 'Past tense -ed endings (/d/ in wandered, admired; /ɪd/ in sculpted, created), British long /ɑː/ (afternoon, artifacts, marble, glass), and smooth cadence.',
@@ -721,7 +721,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'Hello Doctor Evans. I have had a persistent dry cough and a slight sore throat since Thursday evening. I tried resting at home and drinking hot honey lemon water, but the irritation has not improved. Could you please examine my chest and let me know if I need a prescription?',
     ipa: '/həˈləʊ ˈdɒktə ˈevənz. aɪ həv hæd ə pəˈsɪstənt draɪ kɒf ənd ə slaɪt sɔː θrəʊt sɪns ˈθɜːzdeɪ ˈiːvnɪŋ. aɪ traɪd ˈrestɪŋ ət həʊm ənd ˈdrɪŋkɪŋ hɒt ˈhʌni ˈlemən ˈwɔːtə, bət ði ˌɪrɪˈteɪʃn həz nɒt ɪmˈpruːvd. kʊd juː pliːz ɪɡˈzæmɪn maɪ tʃest ənd let miː nəʊ ɪf aɪ niːd ə prɪˈskrɪpʃn?/',
-    ipa_us: '/həˈloʊ ˈdɑːktər ˈevənz. aɪ həv hæd ə pərˈsɪstənt draɪ kɔːf ənd ə slaɪt sɔːr θroʊt sɪns ˈθɜːrzdeɪ ˈiːvnɪŋ. aɪ traɪd ˈrestɪŋ ət hoʊm ənd ˈdrɪŋkɪŋ hɑːt ˈhʌni ˈlemən ˈwɔːtər, bət ði ˌɪrɪˈteɪʃn həz nɑːt ɪmˈpruːvd. kʊd juː pliːz ɪɡˈzæmɪn maɪ tʃest ənd let miː noʊ ɪf aɪ niːd ə prɪˈskrɪpʃn?/',
+    ipa_us: '/həˈloʊ ˈdɑktər ˈevənz. aɪ həv hæd ə pərˈsɪstənt draɪ kɔːf ənd ə slaɪt sɔr θroʊt sɪns ˈθɜrzdeɪ ˈiːvnɪŋ. aɪ traɪd ˈrestɪŋ ət hoʊm ənd ˈdrɪŋkɪŋ hɑt ˈhʌni ˈlemən ˈwɔtər, bət ði ˌɪrɪˈteɪʃn həz nɑt ɪmˈpruːvd. kʊd juː pliːz ɪɡˈzæmɪn maɪ tʃest ənd let miː noʊ ɪf aɪ niːd ə prɪˈskrɪpʃn?/',
     targetPhonemes: ['θ', 's', 'ʃ', 'tʃ', 'p'],
     targetSoundsDescription: {
       en: 'Fricative control (/θ/ in throat, Thursday; /f/ in cough; /ʃ/ in irritation, prescription) and polite modal questions.',
@@ -747,7 +747,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'Thank you for the opportunity to speak with you today. Over the past five years, I have led cross-functional technical teams, redesigned customer onboarding experiences, and consistently exceeded project delivery targets. I pride myself on clear communication, structured problem-solving, and collaborative team environments.',
     ipa: '/θæŋk juː fə ði ˌɒpəˈtjuːnəti tuː spiːk wɪð juː təˈdeɪ. ˈəʊvə ðə pɑːst faɪv jɪəz, aɪ həv led krɒs-ˈfʌŋkʃənl ˈteknɪkl tiːmz, ˌriːdɪˈzaɪnd ˈkʌstəmər ˈɒnbɔːdɪŋ ɪkˈspɪəriənsɪz, ənd kənˈsɪstəntli ɪkˈsiːdɪd ˈprɒdʒekt dɪˈlɪvəri ˈtɑːɡɪts. aɪ praɪd maɪˈself ɒn klɪə kəˌmjuːnɪˈkeɪʃn, ˈstrʌktʃəd ˈprɒbləm-ˌsɒlvɪŋ, ənd kəˈlæbərətɪv tiːm ɪnˈvaɪrənmənts./',
-    ipa_us: '/θæŋk juː fər ði ˌɑːpərˈtuːnəti tuː spiːk wɪð juː təˈdeɪ. ˈoʊvər ðə pæst faɪv jɪrz, aɪ həv led krɔːs-ˈfʌŋkʃənl ˈteknɪkl tiːmz, ˌriːdɪˈzaɪnd ˈkʌstəmər ˈɑːnbɔːrdɪŋ ɪkˈspɪriənsɪz, ənd kənˈsɪstəntli ɪkˈsiːdɪd ˈprɑːdʒekt dɪˈlɪvəri ˈtɑːrɡɪts. aɪ praɪd maɪˈself ɑːn klɪr kəˌmjuːnɪˈkeɪʃn, ˈstrʌktʃərd ˈprɑːbləm-ˌsɑːlvɪŋ, ənd kəˈlæbəreɪtɪv tiːm ɪnˈvaɪrənmənts./',
+    ipa_us: '/θæŋk juː fər ði ˌɑpərˈtuːnəti tuː spiːk wɪð juː təˈdeɪ. ˈoʊvər ðə pæst faɪv jɪrz, aɪ həv led krɔːs-ˈfʌŋkʃənl ˈteknɪkl tiːmz, ˌriːdɪˈzaɪnd ˈkʌstəmər ˈɑnbɔrdɪŋ ɪkˈspɪriənsɪz, ənd kənˈsɪstəntli ɪkˈsiːdɪd ˈprɑdʒekt dɪˈlɪvəri ˈtɑrɡɪts. aɪ praɪd maɪˈself ɑn klɪr kəˌmjuːnɪˈkeɪʃn, ˈstrʌktʃərd ˈprɑbləm-ˌsɑlvɪŋ, ənd kəˈlæbəreɪtɪv tiːm ɪnˈvaɪrənmənts./',
     targetPhonemes: ['θ', 'tʃ', 'dʒ', 'ʃ', 'ts'],
     targetSoundsDescription: {
       en: 'Confident executive delivery, sentence stress on key lexical verbs (led, redesigned, exceeded), and crisp consonant clusters in final positions (targets, environments).',
@@ -774,7 +774,7 @@ export const READING_EXERCISES: ReadingExercise[] = [
     },
     text: 'Nestled among the rolling hills of the Cotswolds lay a secluded stone cottage surrounded by wild honeysuckle and lavender. Each morning, golden sunlight illuminated dew-covered cobwebs along the old garden wall, while songbirds filled the tranquil country air with gentle choruses.',
     ipa: '/ˈnesld əˈmʌŋ ðə ˈrəʊlɪŋ hɪlz əv ðə ˈkɒtswəʊldz leɪ ə sɪˈkluːdɪd stəʊn ˈkɒtɪdʒ səˈraʊndɪd baɪ waɪld ˈhʌnisʌkl ənd ˈlævəndə. iːtʃ ˈmɔːnɪŋ, ˈɡəʊldən ˈsʌnlaɪt ɪˈluːmɪneɪtɪd ˈdjuː-ˌkʌvəd ˈkɒbwebz əˈlɒŋ ði əʊld ˈɡɑːdn wɔːl, waɪl ˈsɒŋbɜːdz fɪld ðə ˈtræŋkwɪl ˈkʌntri eə wɪð ˈdʒentl ˈkɔːrəsɪz./',
-    ipa_us: '/ˈnesld əˈmʌŋ ðə ˈroʊlɪŋ hɪlz əv ðə ˈkɑːtswoʊldz leɪ ə sɪˈkluːdɪd stoʊn ˈkɑːtɪdʒ səˈraʊndɪd baɪ waɪld ˈhʌnisʌkl ənd ˈlævəndər. iːtʃ ˈmɔːrnɪŋ, ˈɡoʊldən ˈsʌnlaɪt ɪˈluːmɪneɪtɪd ˈduː-ˌkʌvərd ˈkɑːbwebz əˈlɔːŋ ði oʊld ˈɡɑːrdn wɔːl, waɪl ˈsɔːŋbɜːrdz fɪld ðə ˈtræŋkwɪl ˈkʌntri er wɪð ˈdʒentl ˈkɔːrəsɪz./',
+    ipa_us: '/ˈnesld əˈmʌŋ ðə ˈroʊlɪŋ hɪlz əv ðə ˈkɑtswoʊldz leɪ ə sɪˈkluːdɪd stoʊn ˈkɑtɪdʒ səˈraʊndɪd baɪ waɪld ˈhʌnisʌkl ənd ˈlævəndər. iːtʃ ˈmɔrnɪŋ, ˈɡoʊldən ˈsʌnlaɪt ɪˈluːmɪneɪtɪd ˈduː-ˌkʌvərd ˈkɑbwebz əˈlɔːŋ ði oʊld ˈɡɑrdn wɔːl, waɪl ˈsɔːŋbɜrdz fɪld ðə ˈtræŋkwɪl ˈkʌntri er wɪð ˈdʒentl ˈkɔrəsɪz./',
     targetPhonemes: ['əʊ', 'uː', 'ɔː', 'ɜː', 'dʒ'],
     targetSoundsDescription: {
       en: 'Rich descriptive prosody, long rounded vowels (/uː/ in secluded, /ɔː/ in morning, wall), and melodious British intonation.',
